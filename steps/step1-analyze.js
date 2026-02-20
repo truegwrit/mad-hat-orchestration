@@ -15,7 +15,7 @@
  *   This output is included in every subsequent step as accumulated context.
  */
 
-import Anthropic from '@anthropic-ai/sdk';
+import { callClaude } from './claude-client.js';
 
 const SYSTEM_PROMPT = `You are a strategist at Mad Hat Maven, a creative agency that believes AI gets you close but humans get you there. Your output is direct, human-centered, and free of corporate jargon. Write like a smart person talking to another smart person.`;
 
@@ -26,8 +26,7 @@ export async function analyzeBrief(brief, brandGuidelines) {
     ? `\n\n---\n\nBRAND GUIDELINES (use these to inform your understanding of tone, audience, and positioning):\n${brandGuidelines}`
     : '';
 
-  const client = new Anthropic();
-  const message = await client.messages.create({
+  const result = await callClaude({
     model: 'claude-sonnet-4-20250514',
     max_tokens: 2048,
     system: SYSTEM_PROMPT,
@@ -58,7 +57,6 @@ ${brief}${guidelinesBlock}`
     ]
   });
 
-  const result = message.content[0].text;
   console.log('  ✓ Analysis complete.');
   return result;
 }

@@ -25,7 +25,7 @@
  *   This output is the last section of the saved markdown file.
  */
 
-import Anthropic from '@anthropic-ai/sdk';
+import { callClaude } from './claude-client.js';
 
 const SYSTEM_PROMPT = `You are a strategist at Mad Hat Maven, a creative agency that believes AI gets you close but humans get you there. Your output is direct, human-centered, and free of corporate jargon. Write like a smart person talking to another smart person.`;
 
@@ -36,8 +36,7 @@ export async function buildStrategy(brief, analysis, painPoints, copy, brandGuid
     ? `\n\n---\n\nBRAND GUIDELINES (the strategy must align with these — tone guidance should incorporate and build on these rules, not contradict them):\n${brandGuidelines}`
     : '';
 
-  const client = new Anthropic();
-  const message = await client.messages.create({
+  const result = await callClaude({
     model: 'claude-sonnet-4-20250514',
     max_tokens: 2048,
     system: SYSTEM_PROMPT,
@@ -85,7 +84,6 @@ ${copy}${guidelinesBlock}`
     ]
   });
 
-  const result = message.content[0].text;
   console.log('  ✓ Strategy complete.');
   return result;
 }

@@ -23,7 +23,7 @@
  *   summary can reference specific angles and executions.
  */
 
-import Anthropic from '@anthropic-ai/sdk';
+import { callClaude } from './claude-client.js';
 
 const SYSTEM_PROMPT = `You are a strategist at Mad Hat Maven, a creative agency that believes AI gets you close but humans get you there. Your output is direct, human-centered, and free of corporate jargon. Write like a smart person talking to another smart person.`;
 
@@ -34,8 +34,7 @@ export async function generateCopy(brief, analysis, painPoints, brandGuidelines)
     ? `\n\n---\n\nBRAND GUIDELINES (all copy MUST comply with these — tone, voice, restrictions, and audience rules take priority):\n${brandGuidelines}`
     : '';
 
-  const client = new Anthropic();
-  const message = await client.messages.create({
+  const result = await callClaude({
     model: 'claude-sonnet-4-20250514',
     max_tokens: 4096,
     system: SYSTEM_PROMPT,
@@ -72,7 +71,6 @@ ${painPoints}${guidelinesBlock}`
     ]
   });
 
-  const result = message.content[0].text;
   console.log('  ✓ Copy generation complete.');
   return result;
 }

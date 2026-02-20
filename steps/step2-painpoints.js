@@ -22,7 +22,7 @@
  *   passed to Steps 3 and 4 to ground copy and strategy in real language.
  */
 
-import Anthropic from '@anthropic-ai/sdk';
+import { callClaude } from './claude-client.js';
 
 const SYSTEM_PROMPT = `You are a strategist at Mad Hat Maven, a creative agency that believes AI gets you close but humans get you there. Your output is direct, human-centered, and free of corporate jargon. Write like a smart person talking to another smart person.`;
 
@@ -33,8 +33,7 @@ export async function expandPainPoints(brief, analysis, brandGuidelines) {
     ? `\n\n---\n\nBRAND GUIDELINES (use these to understand who the consumer is and how they speak):\n${brandGuidelines}`
     : '';
 
-  const client = new Anthropic();
-  const message = await client.messages.create({
+  const result = await callClaude({
     model: 'claude-sonnet-4-20250514',
     max_tokens: 1500,
     system: SYSTEM_PROMPT,
@@ -63,7 +62,6 @@ ${analysis}${guidelinesBlock}`
     ]
   });
 
-  const result = message.content[0].text;
   console.log('  ✓ Pain points expanded.');
   return result;
 }
