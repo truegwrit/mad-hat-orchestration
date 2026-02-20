@@ -63,10 +63,13 @@ app.post('/api/run', async (req, res) => {
   res.setHeader('Content-Type', 'text/event-stream');
   res.setHeader('Cache-Control', 'no-cache');
   res.setHeader('Connection', 'keep-alive');
+  res.setHeader('X-Accel-Buffering', 'no');
   res.flushHeaders();
 
-  // Keep SSE alive through Railway/proxy idle timeouts
-  const heartbeat = setInterval(() => res.write(': heartbeat\n\n'), 15000);
+  // Keep SSE alive through Railway/proxy idle timeouts (every 5s)
+  const heartbeat = setInterval(() => {
+    try { res.write(': heartbeat\n\n'); } catch (_) { /* connection closed */ }
+  }, 5000);
   res.on('close', () => clearInterval(heartbeat));
 
   const slug = toSlug(clientName);
@@ -78,18 +81,24 @@ app.post('/api/run', async (req, res) => {
   try {
     // --- Step 1 ---
     sendEvent(res, 'step:start', { step: 1, label: 'Analyzing brief...' });
+    console.log('  [SSE] Step 1 start event sent, calling Anthropic...');
     const analysis = await analyzeBrief(brief, brandGuidelines);
+    console.log('  [SSE] Step 1 complete, sending result...');
     sendEvent(res, 'step:done', { step: 1, label: 'Brief Analysis', output: analysis });
 
     // --- Step 2 ---
     sendEvent(res, 'step:start', { step: 2, label: 'Expanding pain points in consumer voice...' });
+    console.log('  [SSE] Step 2 start event sent, calling Anthropic...');
     const painPoints = await expandPainPoints(brief, analysis, brandGuidelines);
+    console.log('  [SSE] Step 2 complete, sending result...');
     sendEvent(res, 'step:done', { step: 2, label: 'Pain Points (Consumer Voice)', output: painPoints });
 
     // --- Pause: let user review pain points ---
     sendEvent(res, 'pipeline:paused', { analysis, painPoints });
+    console.log('  [SSE] Pipeline paused for review.');
   } catch (err) {
-    sendEvent(res, 'pipeline:error', { error: err.message });
+    console.error('  [SSE] Pipeline error:', err.message);
+    try { sendEvent(res, 'pipeline:error', { error: err.message }); } catch (_) { /* closed */ }
   }
 
   clearInterval(heartbeat);
@@ -111,10 +120,13 @@ app.post('/api/resume', async (req, res) => {
   res.setHeader('Content-Type', 'text/event-stream');
   res.setHeader('Cache-Control', 'no-cache');
   res.setHeader('Connection', 'keep-alive');
+  res.setHeader('X-Accel-Buffering', 'no');
   res.flushHeaders();
 
-  // Keep SSE alive through Railway/proxy idle timeouts
-  const heartbeat = setInterval(() => res.write(': heartbeat\n\n'), 15000);
+  // Keep SSE alive through Railway/proxy idle timeouts (every 5s)
+  const heartbeat = setInterval(() => {
+    try { res.write(': heartbeat\n\n'); } catch (_) { /* connection closed */ }
+  }, 5000);
   res.on('close', () => clearInterval(heartbeat));
 
   const slug = toSlug(clientName);
@@ -122,12 +134,16 @@ app.post('/api/resume', async (req, res) => {
   try {
     // --- Step 3 ---
     sendEvent(res, 'step:start', { step: 3, label: 'Generating ad copy variations...' });
+    console.log('  [SSE] Step 3 start event sent, calling Anthropic...');
     const copy = await generateCopy(brief, analysis, painPoints, brandGuidelines);
+    console.log('  [SSE] Step 3 complete, sending result...');
     sendEvent(res, 'step:done', { step: 3, label: 'Ad Copy Variations', output: copy });
 
     // --- Step 4 ---
     sendEvent(res, 'step:start', { step: 4, label: 'Building strategy summary...' });
+    console.log('  [SSE] Step 4 start event sent, calling Anthropic...');
     const strategy = await buildStrategy(brief, analysis, painPoints, copy, brandGuidelines);
+    console.log('  [SSE] Step 4 complete, sending result...');
     sendEvent(res, 'step:done', { step: 4, label: 'Strategy Summary', output: strategy });
 
     // --- Save output ---
@@ -165,8 +181,10 @@ ${copy}
     fs.writeFileSync(outputPath, finalOutput, 'utf-8');
 
     sendEvent(res, 'pipeline:done', { outputPath });
+    console.log('  [SSE] Pipeline complete, output saved.');
   } catch (err) {
-    sendEvent(res, 'pipeline:error', { error: err.message });
+    console.error('  [SSE] Pipeline error:', err.message);
+    try { sendEvent(res, 'pipeline:error', { error: err.message }); } catch (_) { /* closed */ }
   }
 
   clearInterval(heartbeat);
