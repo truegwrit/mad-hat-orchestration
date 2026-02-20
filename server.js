@@ -159,5 +159,6 @@ ${copy}
 
 app.listen(PORT, () => {
   console.log(`\nMad Hat Maven Orchestration Engine`);
-  console.log(`Server running at http://localhost:${PORT}\n`);
+  console.log(`Server running at http://localhost:${PORT}`);
+  console.log(`API key: ${process.env.ANTHROPIC_API_KEY ? '✓ detected' : '✗ MISSING — set ANTHROPIC_API_KEY'}\n`);
 });
