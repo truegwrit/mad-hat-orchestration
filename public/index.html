@@ -24,528 +24,136 @@
       --text-secondary: #555;
       --border: #E2E4E8;
     }
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Hind', sans-serif; background: var(--bg); color: var(--text-primary); min-height: 100vh; }
 
-    body {
-      font-family: 'Hind', sans-serif;
-      background: var(--bg);
-      color: var(--text-primary);
-      min-height: 100vh;
-    }
-
-    /* === COLOR BAR === */
-    .brand-bar {
-      display: flex;
-      height: 6px;
-      width: 100%;
-    }
+    .brand-bar { display: flex; height: 6px; width: 100%; }
     .brand-bar span:nth-child(1) { flex: 3; background: var(--mhm-pink); }
     .brand-bar span:nth-child(2) { flex: 1; background: var(--mhm-blue); }
     .brand-bar span:nth-child(3) { flex: 2; background: var(--mhm-yellow); }
     .brand-bar span:nth-child(4) { flex: 2; background: var(--mhm-black); }
 
-    /* === LOGIN SCREEN === */
-    .login-screen {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: calc(100vh - 6px);
-      background: var(--bg);
-    }
-    .login-card {
-      background: var(--mhm-white);
-      border-radius: 16px;
-      padding: 48px 40px;
-      width: 400px;
-      text-align: center;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
-    }
+    /* LOGIN */
+    .login-screen { display: flex; align-items: center; justify-content: center; min-height: calc(100vh - 6px); }
+    .login-card { background: var(--mhm-white); border-radius: 16px; padding: 48px 40px; width: 400px; text-align: center; box-shadow: 0 4px 24px rgba(0,0,0,0.06); }
     .login-card .login-hat { font-size: 48px; margin-bottom: 16px; }
-    .login-card h1 {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 900;
-      font-size: 22px;
-      color: var(--mhm-black);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 4px;
-    }
+    .login-card h1 { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 22px; color: var(--mhm-black); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
     .login-card h1 span { color: var(--mhm-blue); }
-    .login-card .login-sub {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 11px;
-      color: var(--mhm-grey);
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      margin-bottom: 32px;
-    }
-    .login-card input[type="password"] {
-      font-family: 'Hind', sans-serif;
-      font-size: 15px;
-      padding: 12px 16px;
-      border: 2px solid var(--border);
-      border-radius: 8px;
-      width: 100%;
-      outline: none;
-      text-align: center;
-      letter-spacing: 2px;
-      transition: border-color 0.2s;
-    }
-    .login-card input[type="password"]:focus {
-      border-color: var(--mhm-blue);
-    }
-    .login-card .btn-login {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      background: var(--mhm-blue);
-      color: var(--mhm-white);
-      border: none;
-      border-radius: 8px;
-      padding: 13px 24px;
-      margin-top: 16px;
-      cursor: pointer;
-      width: 100%;
-      transition: all 0.2s;
-    }
-    .login-card .btn-login:hover {
-      background: var(--mhm-navy);
-    }
-    .login-error {
-      color: var(--mhm-pink);
-      font-size: 13px;
-      font-weight: 500;
-      margin-top: 12px;
-      min-height: 20px;
-    }
+    .login-card .login-sub { font-family: 'Montserrat', sans-serif; font-size: 11px; color: var(--mhm-grey); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 32px; }
+    .login-card input[type="password"] { font-family: 'Hind', sans-serif; font-size: 15px; padding: 12px 16px; border: 2px solid var(--border); border-radius: 8px; width: 100%; outline: none; text-align: center; letter-spacing: 2px; transition: border-color 0.2s; }
+    .login-card input[type="password"]:focus { border-color: var(--mhm-blue); }
+    .login-card .btn-login { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; background: var(--mhm-blue); color: var(--mhm-white); border: none; border-radius: 8px; padding: 13px 24px; margin-top: 16px; cursor: pointer; width: 100%; transition: all 0.2s; }
+    .login-card .btn-login:hover { background: var(--mhm-navy); }
+    .login-error { color: var(--mhm-pink); font-size: 13px; font-weight: 500; margin-top: 12px; min-height: 20px; }
 
-    /* === HEADER === */
-    header {
-      background: var(--mhm-white);
-      border-bottom: 1px solid var(--border);
-      padding: 20px 40px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .logo-area {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
+    /* HEADER */
+    header { background: var(--mhm-white); border-bottom: 1px solid var(--border); padding: 20px 40px; display: flex; align-items: center; justify-content: space-between; }
+    .logo-area { display: flex; align-items: center; gap: 16px; }
     .logo-hat { width: 48px; height: 48px; }
-    .logo-text h1 {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 900;
-      font-size: 20px;
-      color: var(--mhm-black);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      line-height: 1.1;
-    }
+    .logo-text h1 { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 20px; color: var(--mhm-black); text-transform: uppercase; letter-spacing: 1px; line-height: 1.1; }
     .logo-text h1 span { color: var(--mhm-blue); }
-    .logo-text p {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 400;
-      font-size: 11px;
-      color: var(--mhm-grey);
-      text-transform: uppercase;
-      letter-spacing: 3px;
-    }
-    .header-badge {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--mhm-blue);
-      background: rgba(15, 75, 143, 0.08);
-      padding: 6px 14px;
-      border-radius: 20px;
-      letter-spacing: 0.5px;
-    }
+    .logo-text p { font-family: 'Montserrat', sans-serif; font-weight: 400; font-size: 11px; color: var(--mhm-grey); text-transform: uppercase; letter-spacing: 3px; }
+    .header-badge { font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 600; color: var(--mhm-blue); background: rgba(15, 75, 143, 0.08); padding: 6px 14px; border-radius: 20px; letter-spacing: 0.5px; }
 
-    /* === MAIN LAYOUT === */
+    /* LAYOUT */
     .app-wrapper { display: none; }
-    .container {
-      display: grid;
-      grid-template-columns: 420px 1fr;
-      gap: 0;
-      min-height: calc(100vh - 80px);
-    }
+    .container { display: grid; grid-template-columns: 420px 1fr; gap: 0; min-height: calc(100vh - 80px); }
 
-    /* === LEFT PANEL === */
-    .input-panel {
-      background: var(--mhm-white);
-      border-right: 1px solid var(--border);
-      padding: 32px;
-      display: flex;
-      flex-direction: column;
-      overflow-y: auto;
-    }
-    .input-panel h2 {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      font-size: 18px;
-      color: var(--mhm-blue);
-      margin-bottom: 4px;
-    }
-    .input-panel .subtitle {
-      font-size: 14px;
-      color: var(--text-secondary);
-      margin-bottom: 24px;
-      line-height: 1.5;
-    }
-    label {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 600;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--mhm-black);
-      margin-bottom: 6px;
-      display: block;
-    }
-    input[type="text"] {
-      font-family: 'Hind', sans-serif;
-      font-size: 15px;
-      padding: 10px 14px;
-      border: 2px solid var(--border);
-      border-radius: 8px;
-      margin-bottom: 20px;
-      width: 100%;
-      transition: border-color 0.2s;
-      outline: none;
-    }
+    /* LEFT PANEL */
+    .input-panel { background: var(--mhm-white); border-right: 1px solid var(--border); padding: 32px; display: flex; flex-direction: column; overflow-y: auto; }
+    .input-panel h2 { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 18px; color: var(--mhm-blue); margin-bottom: 4px; }
+    .input-panel .subtitle { font-size: 14px; color: var(--text-secondary); margin-bottom: 24px; line-height: 1.5; }
+    label { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--mhm-black); margin-bottom: 6px; display: block; }
+    input[type="text"] { font-family: 'Hind', sans-serif; font-size: 15px; padding: 10px 14px; border: 2px solid var(--border); border-radius: 8px; margin-bottom: 20px; width: 100%; transition: border-color 0.2s; outline: none; }
     input[type="text"]:focus { border-color: var(--mhm-blue); }
-    textarea {
-      font-family: 'Hind', sans-serif;
-      font-size: 15px;
-      padding: 12px 14px;
-      border: 2px solid var(--border);
-      border-radius: 8px;
-      width: 100%;
-      min-height: 160px;
-      resize: vertical;
-      transition: border-color 0.2s;
-      outline: none;
-      line-height: 1.6;
-    }
+    textarea { font-family: 'Hind', sans-serif; font-size: 15px; padding: 12px 14px; border: 2px solid var(--border); border-radius: 8px; width: 100%; min-height: 160px; resize: vertical; transition: border-color 0.2s; outline: none; line-height: 1.6; }
     textarea:focus { border-color: var(--mhm-blue); }
     textarea::placeholder, input::placeholder { color: var(--mhm-grey); }
 
-    /* === BRAND GUIDELINES TOGGLE === */
-    .guidelines-toggle {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 16px;
-      margin-bottom: 8px;
-      cursor: pointer;
-      user-select: none;
-    }
-    .guidelines-toggle .toggle-icon {
-      font-size: 12px;
-      color: var(--mhm-blue);
-      transition: transform 0.2s;
-      width: 16px;
-    }
-    .guidelines-toggle.open .toggle-icon {
-      transform: rotate(90deg);
-    }
-    .guidelines-toggle span {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 600;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--mhm-blue);
-    }
-    .guidelines-tag {
-      font-family: 'Hind', sans-serif;
-      font-size: 11px;
-      font-weight: 400;
-      text-transform: none;
-      letter-spacing: 0;
-      color: var(--mhm-grey);
-      background: var(--bg);
-      padding: 2px 8px;
-      border-radius: 10px;
-    }
-    .guidelines-section {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.3s ease;
-    }
-    .guidelines-section.open {
-      max-height: 400px;
-    }
-    .guidelines-section textarea {
-      min-height: 100px;
-      flex: none;
-    }
-    .guidelines-hint {
-      font-size: 12px;
-      color: var(--mhm-grey);
-      margin-bottom: 8px;
-      line-height: 1.5;
-    }
+    /* BRAND GUIDELINES TOGGLE */
+    .guidelines-toggle { display: flex; align-items: center; gap: 8px; margin-top: 16px; margin-bottom: 8px; cursor: pointer; user-select: none; }
+    .guidelines-toggle .toggle-icon { font-size: 12px; color: var(--mhm-blue); transition: transform 0.2s; width: 16px; }
+    .guidelines-toggle.open .toggle-icon { transform: rotate(90deg); }
+    .guidelines-toggle span { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--mhm-blue); }
+    .guidelines-tag { font-family: 'Hind', sans-serif; font-size: 11px; font-weight: 400; text-transform: none; letter-spacing: 0; color: var(--mhm-grey); background: var(--bg); padding: 2px 8px; border-radius: 10px; }
+    .guidelines-section { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+    .guidelines-section.open { max-height: 400px; }
+    .guidelines-section textarea { min-height: 100px; flex: none; }
+    .guidelines-hint { font-size: 12px; color: var(--mhm-grey); margin-bottom: 8px; line-height: 1.5; }
 
-    .btn-run {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      font-size: 14px;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      background: var(--mhm-blue);
-      color: var(--mhm-white);
-      border: none;
-      border-radius: 8px;
-      padding: 14px 24px;
-      margin-top: 20px;
-      cursor: pointer;
-      transition: all 0.2s;
-      width: 100%;
-    }
-    .btn-run:hover {
-      background: var(--mhm-navy);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(15, 75, 143, 0.3);
-    }
+    .btn-run { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 1.5px; background: var(--mhm-blue); color: var(--mhm-white); border: none; border-radius: 8px; padding: 14px 24px; margin-top: 20px; cursor: pointer; transition: all 0.2s; width: 100%; }
+    .btn-run:hover { background: var(--mhm-navy); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(15, 75, 143, 0.3); }
     .btn-run:active { transform: translateY(0); }
-    .btn-run:disabled {
-      background: var(--mhm-grey);
-      cursor: not-allowed;
-      transform: none;
-      box-shadow: none;
-    }
+    .btn-run:disabled { background: var(--mhm-grey); cursor: not-allowed; transform: none; box-shadow: none; }
 
-    /* === RIGHT PANEL === */
-    .output-panel {
-      padding: 32px 40px;
-      overflow-y: auto;
-    }
+    /* RIGHT PANEL */
+    .output-panel { padding: 32px 40px; overflow-y: auto; }
+    .pipeline-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+    .pipeline-header h2 { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 18px; color: var(--mhm-blue); }
+    .pipeline-timer { font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 600; color: var(--mhm-grey); }
 
-    /* === PIPELINE TRACKER === */
-    .pipeline-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 24px;
-    }
-    .pipeline-header h2 {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      font-size: 18px;
-      color: var(--mhm-blue);
-    }
-    .pipeline-timer {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--mhm-grey);
-    }
-
-    .step-card {
-      background: var(--card-bg);
-      border: 2px solid var(--border);
-      border-radius: 12px;
-      margin-bottom: 16px;
-      overflow: hidden;
-      transition: border-color 0.3s;
-    }
+    /* STEP CARDS */
+    .step-card { background: var(--card-bg); border: 2px solid var(--border); border-radius: 12px; margin-bottom: 16px; overflow: hidden; transition: border-color 0.3s; }
     .step-card.active { border-color: var(--mhm-yellow); }
     .step-card.done { border-color: var(--mhm-blue); }
     .step-card.error { border-color: var(--mhm-pink); }
-
-    .step-header {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 16px 20px;
-      cursor: pointer;
-      user-select: none;
-    }
-
-    .step-number {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 900;
-      font-size: 14px;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      transition: all 0.3s;
-      background: var(--bg);
-      color: var(--mhm-grey);
-    }
-    .step-card.active .step-number {
-      background: var(--mhm-yellow);
-      color: var(--mhm-black);
-    }
-    .step-card.done .step-number {
-      background: var(--mhm-blue);
-      color: var(--mhm-white);
-    }
-
+    .step-card.hero { border-color: var(--mhm-yellow); border-width: 3px; }
+    .step-header { display: flex; align-items: center; gap: 14px; padding: 16px 20px; cursor: pointer; user-select: none; }
+    .step-number { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 14px; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.3s; background: var(--bg); color: var(--mhm-grey); }
+    .step-card.active .step-number { background: var(--mhm-yellow); color: var(--mhm-black); }
+    .step-card.done .step-number { background: var(--mhm-blue); color: var(--mhm-white); }
+    .step-card.hero .step-number { background: var(--mhm-yellow); color: var(--mhm-black); }
     .step-info { flex: 1; }
-    .step-title {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      font-size: 14px;
-      color: var(--text-primary);
-    }
-    .step-status {
-      font-size: 13px;
-      color: var(--mhm-grey);
-      margin-top: 2px;
-    }
-    .step-card.active .step-status {
-      color: var(--mhm-orange);
-      font-weight: 500;
-    }
-    .step-card.done .step-status {
-      color: var(--mhm-blue);
-      font-weight: 500;
-    }
-
-    .step-indicator {
-      width: 24px;
-      text-align: center;
-      font-size: 18px;
-      flex-shrink: 0;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
-    }
-    .step-card.active .step-indicator {
-      animation: pulse 1.5s ease-in-out infinite;
-    }
-
-    .step-chevron {
-      flex-shrink: 0;
-      width: 20px;
-      height: 20px;
-      color: var(--mhm-grey);
-      transition: transform 0.2s;
-    }
+    .step-title { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 14px; color: var(--text-primary); }
+    .step-status { font-size: 13px; color: var(--mhm-grey); margin-top: 2px; }
+    .step-card.active .step-status { color: var(--mhm-orange); font-weight: 500; }
+    .step-card.done .step-status { color: var(--mhm-blue); font-weight: 500; }
+    .step-indicator { width: 24px; text-align: center; font-size: 18px; flex-shrink: 0; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    .step-card.active .step-indicator { animation: pulse 1.5s ease-in-out infinite; }
+    .step-chevron { flex-shrink: 0; width: 20px; height: 20px; color: var(--mhm-grey); transition: transform 0.2s; }
     .step-card.expanded .step-chevron { transform: rotate(180deg); }
+    .step-output { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+    .step-card.expanded .step-output { max-height: 5000px; }
+    .step-output-inner { padding: 0 20px 20px; border-top: 1px solid var(--border); padding-top: 16px; }
+    .step-output-inner pre { font-family: 'Hind', sans-serif; font-size: 14px; line-height: 1.7; white-space: pre-wrap; word-wrap: break-word; color: var(--text-primary); }
 
-    .step-output {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.3s ease;
-    }
-    .step-card.expanded .step-output { max-height: 3000px; }
-    .step-output-inner {
-      padding: 0 20px 20px;
-      border-top: 1px solid var(--border);
-      padding-top: 16px;
-    }
-    .step-output-inner pre {
-      font-family: 'Hind', sans-serif;
-      font-size: 14px;
-      line-height: 1.7;
-      white-space: pre-wrap;
-      word-wrap: break-word;
-      color: var(--text-primary);
-    }
+    /* HUMAN EDIT PAUSE */
+    .review-panel { display: none; background: var(--mhm-white); border: 2px solid var(--mhm-yellow); border-radius: 12px; padding: 24px; margin-bottom: 16px; }
+    .review-panel.visible { display: block; }
+    .review-panel h3 { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 15px; color: var(--mhm-black); margin-bottom: 4px; }
+    .review-panel .review-subtitle { font-size: 14px; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.5; }
+    .review-panel textarea { min-height: 180px; margin-bottom: 12px; }
+    .btn-confirm { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; background: var(--mhm-yellow); color: var(--mhm-black); border: none; border-radius: 8px; padding: 12px 24px; cursor: pointer; transition: all 0.2s; width: 100%; }
+    .btn-confirm:hover { background: #e5a810; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(254, 188, 17, 0.4); }
 
-    /* === BANNERS === */
-    .success-banner {
-      display: none;
-      background: linear-gradient(135deg, var(--mhm-blue), var(--mhm-navy));
-      color: var(--mhm-white);
-      border-radius: 12px;
-      padding: 24px;
-      margin-top: 8px;
-      text-align: center;
-    }
+    /* BANNERS */
+    .success-banner { display: none; background: linear-gradient(135deg, var(--mhm-blue), var(--mhm-navy)); color: var(--mhm-white); border-radius: 12px; padding: 24px; margin-top: 8px; text-align: center; }
     .success-banner.visible { display: block; }
-    .success-banner h3 {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      font-size: 16px;
-      margin-bottom: 6px;
-    }
+    .success-banner h3 { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 16px; margin-bottom: 6px; }
     .success-banner p { font-size: 14px; opacity: 0.85; }
-
-    .error-banner {
-      display: none;
-      background: rgba(225, 79, 156, 0.08);
-      border: 2px solid var(--mhm-pink);
-      border-radius: 12px;
-      padding: 20px 24px;
-      margin-top: 8px;
-      color: var(--mhm-pink);
-    }
+    .error-banner { display: none; background: rgba(225, 79, 156, 0.08); border: 2px solid var(--mhm-pink); border-radius: 12px; padding: 20px 24px; margin-top: 8px; color: var(--mhm-pink); }
     .error-banner.visible { display: block; }
-    .error-banner h3 {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      font-size: 14px;
-      margin-bottom: 4px;
-    }
+    .error-banner h3 { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 14px; margin-bottom: 4px; }
 
-    /* === EMPTY STATE === */
-    .empty-state {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-      text-align: center;
-      padding: 60px 40px;
-    }
-    .empty-state .hat-icon {
-      font-size: 64px;
-      margin-bottom: 20px;
-      opacity: 0.15;
-    }
-    .empty-state h3 {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      font-size: 18px;
-      color: var(--mhm-blue);
-      margin-bottom: 8px;
-    }
-    .empty-state p {
-      font-size: 15px;
-      color: var(--mhm-grey);
-      max-width: 320px;
-      line-height: 1.6;
-    }
-
-    .accent-line {
-      width: 60px;
-      height: 3px;
-      background: var(--mhm-yellow);
-      border-radius: 2px;
-      margin-bottom: 16px;
-    }
+    /* EMPTY STATE */
+    .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; padding: 60px 40px; }
+    .empty-state .hat-icon { font-size: 64px; margin-bottom: 20px; opacity: 0.15; }
+    .empty-state h3 { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 18px; color: var(--mhm-blue); margin-bottom: 8px; }
+    .empty-state p { font-size: 15px; color: var(--mhm-grey); max-width: 320px; line-height: 1.6; }
+    .accent-line { width: 60px; height: 3px; background: var(--mhm-yellow); border-radius: 2px; margin-bottom: 16px; }
 
     @media (max-width: 900px) {
       .container { grid-template-columns: 1fr; }
-      .input-panel {
-        border-right: none;
-        border-bottom: 1px solid var(--border);
-      }
+      .input-panel { border-right: none; border-bottom: 1px solid var(--border); }
     }
   </style>
 </head>
 <body>
 
-  <div class="brand-bar">
-    <span></span><span></span><span></span><span></span>
-  </div>
+  <div class="brand-bar"><span></span><span></span><span></span><span></span></div>
 
-  <!-- ====== LOGIN SCREEN ====== -->
+  <!-- LOGIN -->
   <div class="login-screen" id="loginScreen">
     <div class="login-card">
       <div class="login-hat">&#x1F3A9;</div>
@@ -557,7 +165,7 @@
     </div>
   </div>
 
-  <!-- ====== MAIN APP (hidden until login) ====== -->
+  <!-- MAIN APP -->
   <div class="app-wrapper" id="appWrapper">
     <header>
       <div class="logo-area">
@@ -576,7 +184,6 @@
     </header>
 
     <div class="container">
-      <!-- LEFT: INPUT -->
       <div class="input-panel">
         <div class="accent-line"></div>
         <h2>New Campaign Brief</h2>
@@ -588,7 +195,6 @@
         <label for="brief">Client Brief</label>
         <textarea id="brief" placeholder="Paste the client brief here. Include the product or service, who it's for, what problems it solves, and anything that makes it stand out."></textarea>
 
-        <!-- Brand Guidelines (optional, collapsible) -->
         <div class="guidelines-toggle" id="guidelinesToggle" onclick="toggleGuidelines()">
           <div class="toggle-icon">&#9654;</div>
           <span>Brand Guidelines</span>
@@ -602,7 +208,6 @@
         <button class="btn-run" id="runBtn" onclick="runPipeline()">Run Pipeline</button>
       </div>
 
-      <!-- RIGHT: OUTPUT -->
       <div class="output-panel" id="outputPanel">
         <div class="empty-state" id="emptyState">
           <div class="hat-icon">&#x1F3A9;</div>
@@ -616,13 +221,11 @@
             <div class="pipeline-timer" id="timer">0:00</div>
           </div>
 
+          <!-- Steps 1 & 2 (Phase 1) -->
           <div class="step-card" id="step-1" onclick="toggleStep(1)">
             <div class="step-header">
               <div class="step-number">1</div>
-              <div class="step-info">
-                <div class="step-title">Brief Analysis</div>
-                <div class="step-status" id="status-1">Waiting...</div>
-              </div>
+              <div class="step-info"><div class="step-title">Brief Analysis</div><div class="step-status" id="status-1">Waiting...</div></div>
               <div class="step-indicator" id="indicator-1"></div>
               <svg class="step-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
             </div>
@@ -632,40 +235,40 @@
           <div class="step-card" id="step-2" onclick="toggleStep(2)">
             <div class="step-header">
               <div class="step-number">2</div>
-              <div class="step-info">
-                <div class="step-title">Pain Points (Consumer Voice)</div>
-                <div class="step-status" id="status-2">Waiting...</div>
-              </div>
+              <div class="step-info"><div class="step-title">Pain Points (Consumer Voice)</div><div class="step-status" id="status-2">Waiting...</div></div>
               <div class="step-indicator" id="indicator-2"></div>
               <svg class="step-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
             </div>
             <div class="step-output"><div class="step-output-inner"><pre id="output-2"></pre></div></div>
           </div>
 
-          <div class="step-card" id="step-3" onclick="toggleStep(3)">
-            <div class="step-header">
-              <div class="step-number">3</div>
-              <div class="step-info">
-                <div class="step-title">Ad Copy Variations</div>
-                <div class="step-status" id="status-3">Waiting...</div>
-              </div>
-              <div class="step-indicator" id="indicator-3"></div>
-              <svg class="step-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-            </div>
-            <div class="step-output"><div class="step-output-inner"><pre id="output-3"></pre></div></div>
+          <!-- Human Review Pause -->
+          <div class="review-panel" id="reviewPanel">
+            <h3>Do these pain points resonate?</h3>
+            <p class="review-subtitle">Edit, remove, or add your own before we generate copy. The pipeline will continue with whatever you confirm below.</p>
+            <textarea id="editPainPoints"></textarea>
+            <button class="btn-confirm" onclick="confirmPainPoints()">Confirm &amp; Continue</button>
           </div>
 
+          <!-- Steps 4 & 3 (Phase 2 — Strategy first, then copy) -->
           <div class="step-card" id="step-4" onclick="toggleStep(4)">
             <div class="step-header">
               <div class="step-number">4</div>
-              <div class="step-info">
-                <div class="step-title">Strategy Summary</div>
-                <div class="step-status" id="status-4">Waiting...</div>
-              </div>
+              <div class="step-info"><div class="step-title">Strategy Summary</div><div class="step-status" id="status-4">Waiting...</div></div>
               <div class="step-indicator" id="indicator-4"></div>
               <svg class="step-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
             </div>
             <div class="step-output"><div class="step-output-inner"><pre id="output-4"></pre></div></div>
+          </div>
+
+          <div class="step-card" id="step-3" onclick="toggleStep(3)">
+            <div class="step-header">
+              <div class="step-number">3</div>
+              <div class="step-info"><div class="step-title">Ad Copy Variations</div><div class="step-status" id="status-3">Waiting...</div></div>
+              <div class="step-indicator" id="indicator-3"></div>
+              <svg class="step-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="step-output"><div class="step-output-inner"><pre id="output-3"></pre></div></div>
           </div>
 
           <div class="success-banner" id="successBanner">
@@ -687,12 +290,14 @@
     let timerInterval = null;
     let startTime = null;
 
+    // Pipeline state (persisted between phases)
+    let pipelineState = {};
+
     // === LOGIN ===
     async function doLogin() {
       const pw = document.getElementById('passwordInput').value;
       const errEl = document.getElementById('loginError');
       errEl.textContent = '';
-
       try {
         const res = await fetch('/api/login', {
           method: 'POST',
@@ -707,20 +312,14 @@
         } else {
           errEl.textContent = data.error || 'Wrong password.';
         }
-      } catch (e) {
-        errEl.textContent = 'Connection error. Try again.';
-      }
+      } catch (e) { errEl.textContent = 'Connection error. Try again.'; }
     }
 
-    // === BRAND GUIDELINES TOGGLE ===
     function toggleGuidelines() {
-      const toggle = document.getElementById('guidelinesToggle');
-      const section = document.getElementById('guidelinesSection');
-      toggle.classList.toggle('open');
-      section.classList.toggle('open');
+      document.getElementById('guidelinesToggle').classList.toggle('open');
+      document.getElementById('guidelinesSection').classList.toggle('open');
     }
 
-    // === TIMER ===
     function updateTimer() {
       const elapsed = Math.floor((Date.now() - startTime) / 1000);
       const mins = Math.floor(elapsed / 60);
@@ -728,16 +327,13 @@
       document.getElementById('timer').textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
     }
 
-    // === STEP TOGGLE ===
     function toggleStep(n) {
-      const card = document.getElementById(`step-${n}`);
       const output = document.getElementById(`output-${n}`);
       if (output.textContent.trim()) {
-        card.classList.toggle('expanded');
+        document.getElementById(`step-${n}`).classList.toggle('expanded');
       }
     }
 
-    // === RESET ===
     function resetUI() {
       for (let i = 1; i <= 4; i++) {
         const card = document.getElementById(`step-${i}`);
@@ -746,13 +342,14 @@
         document.getElementById(`indicator-${i}`).textContent = '';
         document.getElementById(`output-${i}`).textContent = '';
       }
+      document.getElementById('reviewPanel').classList.remove('visible');
       document.getElementById('successBanner').classList.remove('visible');
       document.getElementById('errorBanner').classList.remove('visible');
       document.getElementById('emptyState').style.display = 'none';
       document.getElementById('pipelineView').style.display = 'block';
     }
 
-    // === RUN PIPELINE ===
+    // === PHASE 1: Steps 1 & 2, then pause ===
     async function runPipeline() {
       const clientName = document.getElementById('clientName').value.trim();
       const brief = document.getElementById('brief').value.trim();
@@ -762,6 +359,8 @@
         alert('Please enter both a client name and a brief.');
         return;
       }
+
+      pipelineState = { clientName, brief, brandGuidelines: brandGuidelines || undefined };
 
       const btn = document.getElementById('runBtn');
       btn.disabled = true;
@@ -774,53 +373,87 @@
       try {
         const response = await fetch('/api/run', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Auth-Token': authToken
-          },
-          body: JSON.stringify({ clientName, brief, brandGuidelines: brandGuidelines || undefined })
+          headers: { 'Content-Type': 'application/json', 'X-Auth-Token': authToken },
+          body: JSON.stringify(pipelineState)
         });
 
-        if (response.status === 401) {
-          alert('Session expired. Please reload and log in again.');
-          location.reload();
-          return;
-        }
+        if (response.status === 401) { alert('Session expired.'); location.reload(); return; }
 
-        const reader = response.body.getReader();
-        const decoder = new TextDecoder();
-        let buffer = '';
+        await processSSE(response);
+      } catch (err) {
+        document.getElementById('errorMessage').textContent = err.message;
+        document.getElementById('errorBanner').classList.add('visible');
+        clearInterval(timerInterval);
+        btn.disabled = false;
+        btn.textContent = 'Run Pipeline';
+      }
+    }
 
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
+    // === HUMAN EDIT: Confirm pain points and resume ===
+    async function confirmPainPoints() {
+      const editedPainPoints = document.getElementById('editPainPoints').value.trim();
+      if (!editedPainPoints) { alert('Pain points cannot be empty.'); return; }
 
-          buffer += decoder.decode(value, { stream: true });
-          const lines = buffer.split('\n');
-          buffer = lines.pop();
+      // Hide review panel
+      document.getElementById('reviewPanel').classList.remove('visible');
 
-          let eventType = null;
-          for (const line of lines) {
-            if (line.startsWith('event: ')) {
-              eventType = line.slice(7).trim();
-            } else if (line.startsWith('data: ') && eventType) {
-              const data = JSON.parse(line.slice(6));
-              handleEvent(eventType, data);
-              eventType = null;
-            }
-          }
-        }
+      // Update Step 2 output with the edited version
+      document.getElementById('output-2').textContent = editedPainPoints;
+
+      try {
+        const response = await fetch('/api/resume', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'X-Auth-Token': authToken },
+          body: JSON.stringify({
+            clientName: pipelineState.clientName,
+            brief: pipelineState.brief,
+            analysis: pipelineState.analysis,
+            painPoints: editedPainPoints,
+            brandGuidelines: pipelineState.brandGuidelines
+          })
+        });
+
+        if (response.status === 401) { alert('Session expired.'); location.reload(); return; }
+
+        await processSSE(response);
       } catch (err) {
         document.getElementById('errorMessage').textContent = err.message;
         document.getElementById('errorBanner').classList.add('visible');
       }
 
       clearInterval(timerInterval);
-      btn.disabled = false;
-      btn.textContent = 'Run Pipeline';
+      document.getElementById('runBtn').disabled = false;
+      document.getElementById('runBtn').textContent = 'Run Pipeline';
     }
 
-    // === HANDLE SSE EVENTS ===
+    // === SSE PROCESSOR (shared by both phases) ===
+    async function processSSE(response) {
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop();
+
+        let eventType = null;
+        for (const line of lines) {
+          if (line.startsWith('event: ')) {
+            eventType = line.slice(7).trim();
+          } else if (line.startsWith('data: ') && eventType) {
+            const data = JSON.parse(line.slice(6));
+            handleEvent(eventType, data);
+            eventType = null;
+          }
+        }
+      }
+    }
+
+    // === EVENT HANDLER ===
     function handleEvent(event, data) {
       if (event === 'step:start') {
         const card = document.getElementById(`step-${data.step}`);
@@ -838,6 +471,23 @@
         document.getElementById(`indicator-${data.step}`).textContent = '\u2713';
         document.getElementById(`output-${data.step}`).textContent = data.output;
         card.classList.add('expanded');
+
+        // Strategy is the hero — give it special styling
+        if (data.step === 4) {
+          card.classList.add('hero');
+        }
+      }
+
+      if (event === 'pipeline:paused') {
+        // Store analysis for Phase 2
+        pipelineState.analysis = data.analysis;
+        pipelineState.painPoints = data.painPoints;
+
+        // Show editable pain points
+        document.getElementById('editPainPoints').value = data.painPoints;
+        const panel = document.getElementById('reviewPanel');
+        panel.classList.add('visible');
+        panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }
 
       if (event === 'pipeline:done') {
@@ -845,6 +495,9 @@
         document.getElementById('successPath').textContent = `Saved to ${data.outputPath}`;
         banner.classList.add('visible');
         banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        clearInterval(timerInterval);
+        document.getElementById('runBtn').disabled = false;
+        document.getElementById('runBtn').textContent = 'Run Pipeline';
       }
 
       if (event === 'pipeline:error') {
@@ -852,6 +505,9 @@
         if (card) { card.classList.remove('active'); card.classList.add('error'); }
         document.getElementById('errorMessage').textContent = data.error;
         document.getElementById('errorBanner').classList.add('visible');
+        clearInterval(timerInterval);
+        document.getElementById('runBtn').disabled = false;
+        document.getElementById('runBtn').textContent = 'Run Pipeline';
       }
     }
   </script>
