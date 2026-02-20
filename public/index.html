@@ -27,11 +27,13 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Hind', sans-serif; background: var(--bg); color: var(--text-primary); min-height: 100vh; }
 
+    /* BRAND BARS */
     .brand-bar { display: flex; height: 6px; width: 100%; }
     .brand-bar span:nth-child(1) { flex: 3; background: var(--mhm-pink); }
     .brand-bar span:nth-child(2) { flex: 1; background: var(--mhm-blue); }
     .brand-bar span:nth-child(3) { flex: 2; background: var(--mhm-yellow); }
     .brand-bar span:nth-child(4) { flex: 2; background: var(--mhm-black); }
+    .brand-bar-bottom { position: fixed; bottom: 0; left: 0; z-index: 100; }
 
     /* HEADER */
     header { background: var(--mhm-white); border-bottom: 1px solid var(--border); padding: 20px 40px; display: flex; align-items: center; justify-content: space-between; }
@@ -43,12 +45,12 @@
     .header-badge { font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 600; color: var(--mhm-blue); background: rgba(15, 75, 143, 0.08); padding: 6px 14px; border-radius: 20px; letter-spacing: 0.5px; }
 
     /* LAYOUT */
-    .container { display: grid; grid-template-columns: 420px 1fr; gap: 0; min-height: calc(100vh - 80px); }
+    .container { display: grid; grid-template-columns: 380px 1fr; gap: 0; min-height: calc(100vh - 80px); }
 
     /* LEFT PANEL */
     .input-panel { background: var(--mhm-white); border-right: 1px solid var(--border); padding: 32px; display: flex; flex-direction: column; overflow-y: auto; }
     .input-panel h2 { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 18px; color: var(--mhm-blue); margin-bottom: 4px; }
-    .input-panel .subtitle { font-size: 14px; color: var(--text-secondary); margin-bottom: 24px; line-height: 1.5; }
+    .input-panel .subtitle { font-size: 14px; color: var(--text-secondary); margin-bottom: 24px; line-height: 1.5; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
     label { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--mhm-black); margin-bottom: 6px; display: block; }
     input[type="text"] { font-family: 'Hind', sans-serif; font-size: 15px; padding: 10px 14px; border: 2px solid var(--border); border-radius: 8px; margin-bottom: 20px; width: 100%; transition: border-color 0.2s; outline: none; }
     input[type="text"]:focus { border-color: var(--mhm-blue); }
@@ -67,71 +69,247 @@
     .guidelines-section textarea { min-height: 100px; flex: none; }
     .guidelines-hint { font-size: 12px; color: var(--mhm-grey); margin-bottom: 8px; line-height: 1.5; }
 
-    .btn-run { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 1.5px; background: var(--mhm-blue); color: var(--mhm-white); border: none; border-radius: 8px; padding: 14px 24px; margin-top: 20px; cursor: pointer; transition: all 0.2s; width: 100%; }
-    .btn-run:hover { background: var(--mhm-navy); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(15, 75, 143, 0.3); }
+    .btn-run { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 1.5px; background: linear-gradient(135deg, var(--mhm-blue), var(--mhm-navy)); color: var(--mhm-white); border: none; border-radius: 8px; padding: 14px 24px; margin-top: 20px; cursor: pointer; transition: all 0.2s; width: 100%; }
+    .btn-run:hover { background: linear-gradient(135deg, var(--mhm-navy), var(--mhm-blue)); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(15, 75, 143, 0.35); }
     .btn-run:active { transform: translateY(0); }
     .btn-run:disabled { background: var(--mhm-grey); cursor: not-allowed; transform: none; box-shadow: none; }
 
     /* RIGHT PANEL */
-    .output-panel { padding: 32px 40px; overflow-y: auto; }
+    .output-panel { padding: 32px 32px 48px; overflow-y: auto; }
     .pipeline-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
     .pipeline-header h2 { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 18px; color: var(--mhm-blue); }
     .pipeline-timer { font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 600; color: var(--mhm-grey); }
 
+    /* HORIZONTAL CARD TRACK */
+    .cards-track {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding-bottom: 8px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--mhm-grey) transparent;
+    }
+    .cards-track::-webkit-scrollbar { height: 6px; }
+    .cards-track::-webkit-scrollbar-track { background: transparent; }
+    .cards-track::-webkit-scrollbar-thumb { background: var(--mhm-grey); border-radius: 3px; }
+    .cards-track::-webkit-scrollbar-thumb:hover { background: var(--mhm-blue); }
+
     /* STEP CARDS */
-    .step-card { background: var(--card-bg); border: 2px solid var(--border); border-radius: 12px; margin-bottom: 16px; overflow: hidden; transition: border-color 0.3s; }
+    .step-card {
+      flex: 0 0 380px;
+      scroll-snap-align: start;
+      background: var(--card-bg);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      min-height: 200px;
+      max-height: 65vh;
+      overflow: hidden;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      position: relative;
+    }
+    .step-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      border-radius: 12px 0 0 12px;
+      z-index: 1;
+    }
+    #step-1::before { background: var(--mhm-blue); }
+    #step-2::before { background: var(--mhm-pink); }
+    #step-4::before { background: var(--mhm-yellow); }
+    #step-3::before { background: var(--mhm-orange); }
+
     .step-card.active { border-color: var(--mhm-yellow); }
     .step-card.done { border-color: var(--mhm-blue); }
     .step-card.error { border-color: var(--mhm-pink); }
-    .step-card.hero { border-color: var(--mhm-yellow); border-width: 3px; }
-    .step-header { display: flex; align-items: center; gap: 14px; padding: 16px 20px; cursor: pointer; user-select: none; }
-    .step-number { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 14px; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.3s; background: var(--bg); color: var(--mhm-grey); }
-    .step-card.active .step-number { background: var(--mhm-yellow); color: var(--mhm-black); }
-    .step-card.done .step-number { background: var(--mhm-blue); color: var(--mhm-white); }
-    .step-card.hero .step-number { background: var(--mhm-yellow); color: var(--mhm-black); }
-    .step-info { flex: 1; }
-    .step-title { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 14px; color: var(--text-primary); }
-    .step-status { font-size: 13px; color: var(--mhm-grey); margin-top: 2px; }
-    .step-card.active .step-status { color: var(--mhm-orange); font-weight: 500; }
-    .step-card.done .step-status { color: var(--mhm-blue); font-weight: 500; }
+    .step-card.hero { border-color: var(--mhm-yellow); border-width: 3px; box-shadow: 0 4px 20px rgba(254, 188, 17, 0.2); }
+
+    .card-header { display: flex; align-items: center; gap: 12px; padding: 16px 20px 12px; flex-shrink: 0; }
+    .step-icon { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; transition: all 0.3s; background: var(--border); }
+    .step-card.active .step-icon { background: var(--mhm-yellow); box-shadow: 0 0 0 3px rgba(254, 188, 17, 0.25); }
+    .step-card.done .step-icon { background: var(--mhm-blue); box-shadow: 0 0 0 3px rgba(15, 75, 143, 0.15); }
+    .step-card.hero .step-icon { background: var(--mhm-yellow); box-shadow: 0 0 0 3px rgba(254, 188, 17, 0.25); }
+    .step-card.error .step-icon { background: var(--mhm-pink); box-shadow: 0 0 0 3px rgba(225, 79, 156, 0.15); }
+    .step-title { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 14px; color: var(--text-primary); flex: 1; }
     .step-indicator { width: 24px; text-align: center; font-size: 18px; flex-shrink: 0; }
     @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
     .step-card.active .step-indicator { animation: pulse 1.5s ease-in-out infinite; }
-    .step-chevron { flex-shrink: 0; width: 20px; height: 20px; color: var(--mhm-grey); transition: transform 0.2s; }
-    .step-card.expanded .step-chevron { transform: rotate(180deg); }
-    .step-output { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
-    .step-card.expanded .step-output { max-height: 5000px; }
-    .step-output-inner { padding: 0 20px 20px; border-top: 1px solid var(--border); padding-top: 16px; }
-    .step-output-inner pre { font-family: 'Hind', sans-serif; font-size: 14px; line-height: 1.7; white-space: pre-wrap; word-wrap: break-word; color: var(--text-primary); }
+    .step-status { font-size: 13px; color: var(--mhm-grey); padding: 0 20px 12px; flex-shrink: 0; }
+    .step-card.active .step-status { color: var(--mhm-orange); font-weight: 500; }
+    .step-card.done .step-status { color: var(--mhm-blue); font-weight: 500; }
+
+    /* STEP OUTPUT (rendered markdown) */
+    .step-output {
+      padding: 0 20px 20px;
+      overflow-y: auto;
+      flex: 1;
+      border-top: 1px solid var(--border);
+      margin-top: 0;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+    .step-output::-webkit-scrollbar { width: 4px; }
+    .step-output::-webkit-scrollbar-track { background: transparent; }
+    .step-output::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+    .step-output:empty { border-top: none; padding: 0; }
+
+    /* RENDERED MARKDOWN TYPOGRAPHY */
+    .step-output h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 17px;
+      color: var(--mhm-blue);
+      margin: 20px 0 10px 0;
+      padding-bottom: 6px;
+      border-bottom: 2px solid var(--mhm-yellow);
+    }
+    .step-output h2:first-child { margin-top: 16px; }
+    .step-output h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--mhm-blue);
+      margin: 18px 0 8px 0;
+    }
+    .step-output h3:first-child { margin-top: 16px; }
+    .step-output h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--mhm-navy);
+      margin: 14px 0 6px 0;
+    }
+    .step-output p {
+      font-family: 'Hind', sans-serif;
+      font-size: 14px;
+      line-height: 1.7;
+      margin: 0 0 10px 0;
+      color: var(--text-primary);
+    }
+    .step-output strong {
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .step-output em {
+      font-style: italic;
+      color: var(--text-secondary);
+    }
+    .step-output ul, .step-output ol {
+      margin: 6px 0 14px 0;
+      padding-left: 20px;
+    }
+    .step-output li {
+      font-family: 'Hind', sans-serif;
+      font-size: 14px;
+      margin-bottom: 6px;
+      line-height: 1.6;
+    }
+    .step-output ul li {
+      list-style: none;
+      position: relative;
+      padding-left: 8px;
+    }
+    .step-output ul li::before {
+      content: '';
+      position: absolute;
+      left: -14px;
+      top: 9px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--mhm-yellow);
+    }
+    .step-output ol li { padding-left: 4px; }
+    .step-output ol li::marker {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      color: var(--mhm-blue);
+    }
+    .step-output hr {
+      border: none;
+      height: 2px;
+      background: linear-gradient(to right, var(--mhm-pink), var(--mhm-blue), var(--mhm-yellow));
+      margin: 20px 0;
+      border-radius: 1px;
+    }
+
+    /* COLLAPSIBLE SECTIONS WITHIN CARDS */
+    .step-output details {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 10px;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    .step-output details:first-child { margin-top: 16px; }
+    .step-output details[open] { border-color: var(--mhm-blue); }
+    .step-output details summary {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--mhm-blue);
+      padding: 12px 16px;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg);
+      transition: background 0.2s;
+      user-select: none;
+    }
+    .step-output details summary:hover { background: #EEF0F4; }
+    .step-output details summary::-webkit-details-marker { display: none; }
+    .step-output details summary::before {
+      content: '\\25B6';
+      font-size: 10px;
+      color: var(--mhm-grey);
+      transition: transform 0.2s;
+      display: inline-block;
+    }
+    .step-output details[open] summary::before { transform: rotate(90deg); color: var(--mhm-blue); }
+    .step-output details .section-content { padding: 12px 16px 16px; }
+    .step-output details .section-content > *:first-child { margin-top: 0; }
+    .step-output details .section-content > *:last-child { margin-bottom: 0; }
 
     /* HUMAN EDIT PAUSE */
-    .review-panel { display: none; background: var(--mhm-white); border: 2px solid var(--mhm-yellow); border-radius: 12px; padding: 24px; margin-bottom: 16px; }
+    .review-panel { display: none; background: linear-gradient(135deg, #FFFDF5, var(--mhm-white)); border: 2px solid var(--mhm-yellow); border-radius: 12px; padding: 24px; margin-top: 20px; }
     .review-panel.visible { display: block; }
     .review-panel h3 { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 15px; color: var(--mhm-black); margin-bottom: 4px; }
     .review-panel .review-subtitle { font-size: 14px; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.5; }
     .review-panel textarea { min-height: 180px; margin-bottom: 12px; }
-    .btn-confirm { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; background: var(--mhm-yellow); color: var(--mhm-black); border: none; border-radius: 8px; padding: 12px 24px; cursor: pointer; transition: all 0.2s; width: 100%; }
-    .btn-confirm:hover { background: #e5a810; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(254, 188, 17, 0.4); }
+    .btn-confirm { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; background: linear-gradient(135deg, var(--mhm-yellow), #e5a810); color: var(--mhm-black); border: none; border-radius: 8px; padding: 12px 24px; cursor: pointer; transition: all 0.2s; width: 100%; }
+    .btn-confirm:hover { background: linear-gradient(135deg, #e5a810, var(--mhm-yellow)); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(254, 188, 17, 0.4); }
 
     /* BANNERS */
-    .success-banner { display: none; background: linear-gradient(135deg, var(--mhm-blue), var(--mhm-navy)); color: var(--mhm-white); border-radius: 12px; padding: 24px; margin-top: 8px; text-align: center; }
+    .success-banner { display: none; background: linear-gradient(135deg, var(--mhm-blue), var(--mhm-navy)); border: 2px solid var(--mhm-yellow); color: var(--mhm-white); border-radius: 12px; padding: 24px; margin-top: 20px; text-align: center; }
     .success-banner.visible { display: block; }
     .success-banner h3 { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 16px; margin-bottom: 6px; }
     .success-banner p { font-size: 14px; opacity: 0.85; }
-    .error-banner { display: none; background: rgba(225, 79, 156, 0.08); border: 2px solid var(--mhm-pink); border-radius: 12px; padding: 20px 24px; margin-top: 8px; color: var(--mhm-pink); }
+    .error-banner { display: none; background: rgba(225, 79, 156, 0.08); border: 2px solid var(--mhm-pink); border-radius: 12px; padding: 20px 24px; margin-top: 20px; color: var(--mhm-pink); }
     .error-banner.visible { display: block; }
     .error-banner h3 { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 14px; margin-bottom: 4px; }
 
     /* EMPTY STATE */
     .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; padding: 60px 40px; }
-    .empty-state .hat-icon { font-size: 64px; margin-bottom: 20px; opacity: 0.15; }
+    .empty-state .hat-icon { font-size: 72px; margin-bottom: 16px; opacity: 0.15; }
+    .empty-state .accent-line-gradient { width: 60px; height: 3px; background: linear-gradient(to right, var(--mhm-pink), var(--mhm-yellow)); border-radius: 2px; margin-bottom: 16px; }
     .empty-state h3 { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 18px; color: var(--mhm-blue); margin-bottom: 8px; }
     .empty-state p { font-size: 15px; color: var(--mhm-grey); max-width: 320px; line-height: 1.6; }
     .accent-line { width: 60px; height: 3px; background: var(--mhm-yellow); border-radius: 2px; margin-bottom: 16px; }
 
+    /* RESPONSIVE */
     @media (max-width: 900px) {
       .container { grid-template-columns: 1fr; }
       .input-panel { border-right: none; border-bottom: 1px solid var(--border); }
+      .cards-track { flex-direction: column; overflow-x: visible; }
+      .step-card { flex: 0 0 auto; max-height: none; }
     }
   </style>
 </head>
@@ -185,6 +363,7 @@
       <div class="output-panel" id="outputPanel">
         <div class="empty-state" id="emptyState">
           <div class="hat-icon">&#x1F3A9;</div>
+          <div class="accent-line-gradient"></div>
           <h3>Ready when you are</h3>
           <p>Enter a client name and brief, then hit Run Pipeline to see the orchestration engine in action.</p>
         </div>
@@ -195,58 +374,65 @@
             <div class="pipeline-timer" id="timer">0:00</div>
           </div>
 
-          <!-- Steps 1 & 2 (Phase 1) -->
-          <div class="step-card" id="step-1" onclick="toggleStep(1)">
-            <div class="step-header">
-              <div class="step-number">1</div>
-              <div class="step-info"><div class="step-title">Brief Analysis</div><div class="step-status" id="status-1">Waiting...</div></div>
-              <div class="step-indicator" id="indicator-1"></div>
-              <svg class="step-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          <!-- Horizontal scrolling card track — Strategy leads -->
+          <div class="cards-track" id="cardsTrack">
+
+            <!-- Strategy Summary (HERO — first card) -->
+            <div class="step-card" id="step-4">
+              <div class="card-header">
+                <div class="step-icon" id="icon-4"></div>
+                <div class="step-title">Strategy Summary</div>
+                <div class="step-indicator" id="indicator-4"></div>
+              </div>
+              <div class="step-status" id="status-4">Waiting...</div>
+              <div class="step-output" id="output-4"></div>
             </div>
-            <div class="step-output"><div class="step-output-inner"><pre id="output-1"></pre></div></div>
+
+            <!-- Brief Analysis -->
+            <div class="step-card" id="step-1">
+              <div class="card-header">
+                <div class="step-icon" id="icon-1"></div>
+                <div class="step-title">Brief Analysis</div>
+                <div class="step-indicator" id="indicator-1"></div>
+              </div>
+              <div class="step-status" id="status-1">Waiting...</div>
+              <div class="step-output" id="output-1"></div>
+            </div>
+
+            <!-- Pain Points (Consumer Voice) -->
+            <div class="step-card" id="step-2">
+              <div class="card-header">
+                <div class="step-icon" id="icon-2"></div>
+                <div class="step-title">Pain Points (Consumer Voice)</div>
+                <div class="step-indicator" id="indicator-2"></div>
+              </div>
+              <div class="step-status" id="status-2">Waiting...</div>
+              <div class="step-output" id="output-2"></div>
+            </div>
+
+            <!-- Ad Copy Variations -->
+            <div class="step-card" id="step-3">
+              <div class="card-header">
+                <div class="step-icon" id="icon-3"></div>
+                <div class="step-title">Ad Copy Variations</div>
+                <div class="step-indicator" id="indicator-3"></div>
+              </div>
+              <div class="step-status" id="status-3">Waiting...</div>
+              <div class="step-output" id="output-3"></div>
+            </div>
+
           </div>
 
-          <div class="step-card" id="step-2" onclick="toggleStep(2)">
-            <div class="step-header">
-              <div class="step-number">2</div>
-              <div class="step-info"><div class="step-title">Pain Points (Consumer Voice)</div><div class="step-status" id="status-2">Waiting...</div></div>
-              <div class="step-indicator" id="indicator-2"></div>
-              <svg class="step-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-            </div>
-            <div class="step-output"><div class="step-output-inner"><pre id="output-2"></pre></div></div>
-          </div>
-
-          <!-- Human Review Pause -->
+          <!-- Human Review Pause (below card track) -->
           <div class="review-panel" id="reviewPanel">
-            <h3>Do these pain points resonate?</h3>
+            <h3>&#x1F3A9; Do these pain points resonate?</h3>
             <p class="review-subtitle">Edit, remove, or add your own before we generate copy. The pipeline will continue with whatever you confirm below.</p>
             <textarea id="editPainPoints"></textarea>
             <button class="btn-confirm" onclick="confirmPainPoints()">Confirm &amp; Continue</button>
           </div>
 
-          <!-- Steps 4 & 3 (Phase 2 — Strategy first, then copy) -->
-          <div class="step-card" id="step-4" onclick="toggleStep(4)">
-            <div class="step-header">
-              <div class="step-number">4</div>
-              <div class="step-info"><div class="step-title">Strategy Summary</div><div class="step-status" id="status-4">Waiting...</div></div>
-              <div class="step-indicator" id="indicator-4"></div>
-              <svg class="step-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-            </div>
-            <div class="step-output"><div class="step-output-inner"><pre id="output-4"></pre></div></div>
-          </div>
-
-          <div class="step-card" id="step-3" onclick="toggleStep(3)">
-            <div class="step-header">
-              <div class="step-number">3</div>
-              <div class="step-info"><div class="step-title">Ad Copy Variations</div><div class="step-status" id="status-3">Waiting...</div></div>
-              <div class="step-indicator" id="indicator-3"></div>
-              <svg class="step-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-            </div>
-            <div class="step-output"><div class="step-output-inner"><pre id="output-3"></pre></div></div>
-          </div>
-
           <div class="success-banner" id="successBanner">
-            <h3>Pipeline Complete</h3>
+            <h3>&#x2713; Pipeline Complete</h3>
             <p id="successPath"></p>
           </div>
 
@@ -259,6 +445,9 @@
     </div>
   </div>
 
+  <!-- Bottom brand bar (mirrors top) -->
+  <div class="brand-bar brand-bar-bottom"><span></span><span></span><span></span><span></span></div>
+
   <script>
     let timerInterval = null;
     let startTime = null;
@@ -266,6 +455,179 @@
     // Pipeline state (persisted between phases)
     let pipelineState = {};
 
+    // ========================================
+    // LIGHTWEIGHT MARKDOWN PARSER
+    // with collapsible <details> sections
+    // ========================================
+    function parseMarkdown(md) {
+      if (!md) return '';
+
+      // 1. Escape HTML entities for safety
+      let text = md
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+
+      const lines = text.split('\n');
+
+      // 2. First pass: parse into flat block tokens
+      const blocks = [];
+      let i = 0;
+
+      while (i < lines.length) {
+        const trimmed = lines[i].trim();
+
+        // Blank line — skip
+        if (trimmed === '') { i++; continue; }
+
+        // Horizontal rule
+        if (/^---+$/.test(trimmed) || /^\*\*\*+$/.test(trimmed)) {
+          blocks.push({ type: 'hr' });
+          i++; continue;
+        }
+
+        // Headings
+        const headingMatch = trimmed.match(/^(#{1,3})\s+(.+)$/);
+        if (headingMatch) {
+          const level = headingMatch[1].length; // 1, 2, or 3
+          blocks.push({ type: 'heading', level, text: inlineFormat(headingMatch[2]) });
+          i++; continue;
+        }
+
+        // Unordered list
+        if (/^[-*]\s+/.test(trimmed)) {
+          const items = [];
+          while (i < lines.length && /^[-*]\s+/.test(lines[i].trim())) {
+            items.push(inlineFormat(lines[i].trim().replace(/^[-*]\s+/, '')));
+            i++;
+          }
+          blocks.push({ type: 'ul', items });
+          continue;
+        }
+
+        // Ordered list (also bridge blank lines between numbered items)
+        if (/^\d+[.)]\s+/.test(trimmed)) {
+          const items = [];
+          while (i < lines.length) {
+            const cur = lines[i].trim();
+            if (/^\d+[.)]\s+/.test(cur)) {
+              items.push(inlineFormat(cur.replace(/^\d+[.)]\s+/, '')));
+              i++;
+            } else if (cur === '' && i + 1 < lines.length && /^\d+[.)]\s+/.test(lines[i + 1].trim())) {
+              // Skip blank line between numbered items
+              i++;
+            } else {
+              break;
+            }
+          }
+          blocks.push({ type: 'ol', items });
+          continue;
+        }
+
+        // Paragraph
+        const paraLines = [];
+        while (i < lines.length) {
+          const pLine = lines[i].trim();
+          if (pLine === '') break;
+          if (/^---+$/.test(pLine) || /^\*\*\*+$/.test(pLine)) break;
+          if (/^#{1,3}\s+/.test(pLine)) break;
+          if (/^[-*]\s+/.test(pLine)) break;
+          if (/^\d+[.)]\s+/.test(pLine)) break;
+          paraLines.push(pLine);
+          i++;
+        }
+        if (paraLines.length > 0) {
+          blocks.push({ type: 'p', text: paraLines.map(l => inlineFormat(l)).join('<br>') });
+        }
+      }
+
+      // 3. Second pass: group into collapsible sections at ALL heading boundaries.
+      //    Every heading (level 1, 2, or 3) starts a new collapsible section.
+      //    Content before any heading goes into a preamble (not collapsible).
+      const sections = [];
+      let current = null;
+
+      for (const block of blocks) {
+        if (block.type === 'heading') {
+          // Every heading starts a new collapsible section
+          if (current) sections.push(current);
+          current = { title: block.text, blocks: [] };
+        } else if (block.type === 'hr') {
+          // HRs between sections are decorative — skip when starting a new section
+          if (current && current.blocks.length === 0) continue;
+          if (current) { current.blocks.push(block); }
+          else { sections.push({ title: null, blocks: [block] }); }
+        } else {
+          if (current) { current.blocks.push(block); }
+          else {
+            // Preamble content before first heading
+            if (sections.length === 0 || sections[sections.length - 1].title !== null) {
+              sections.push({ title: null, blocks: [] });
+            }
+            sections[sections.length - 1].blocks.push(block);
+          }
+        }
+      }
+      if (current) sections.push(current);
+
+      // 4. Render sections
+      const html = [];
+      let titledIndex = 0;
+
+      for (const section of sections) {
+        const contentHtml = section.blocks.map(renderBlock).join('\n');
+
+        if (section.title) {
+          // Collapsible section — first titled section starts open
+          const isFirst = titledIndex === 0;
+          html.push(
+            `<details${isFirst ? ' open' : ''}>` +
+            `<summary>${section.title}</summary>` +
+            `<div class="section-content">${contentHtml}</div>` +
+            `</details>`
+          );
+          titledIndex++;
+        } else if (contentHtml.trim()) {
+          // Preamble (no heading) — render inline
+          html.push(contentHtml);
+        }
+      }
+
+      return html.join('\n');
+    }
+
+    function renderBlock(block) {
+      switch (block.type) {
+        case 'heading':
+          const tag = `h${Math.min(block.level + 1, 4)}`;
+          return `<${tag}>${block.text}</${tag}>`;
+        case 'hr':
+          return '<hr>';
+        case 'ul':
+          return '<ul>' + block.items.map(item => `<li>${item}</li>`).join('') + '</ul>';
+        case 'ol':
+          return '<ol>' + block.items.map(item => `<li>${item}</li>`).join('') + '</ol>';
+        case 'p':
+          return `<p>${block.text}</p>`;
+        default:
+          return '';
+      }
+    }
+
+    // Inline formatting: bold, italic, line breaks
+    function inlineFormat(text) {
+      // Bold: **text**
+      text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+      // Italic: *text* (but not inside bold)
+      text = text.replace(/(?<!\*)\*([^*]+?)\*(?!\*)/g, '<em>$1</em>');
+      // Trailing double-space line break
+      text = text.replace(/ {2,}$/, '<br>');
+      return text;
+    }
+
+    // ========================================
+    // UI FUNCTIONS
+    // ========================================
     function toggleGuidelines() {
       document.getElementById('guidelinesToggle').classList.toggle('open');
       document.getElementById('guidelinesSection').classList.toggle('open');
@@ -278,26 +640,21 @@
       document.getElementById('timer').textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
     }
 
-    function toggleStep(n) {
-      const output = document.getElementById(`output-${n}`);
-      if (output.textContent.trim()) {
-        document.getElementById(`step-${n}`).classList.toggle('expanded');
-      }
-    }
-
     function resetUI() {
       for (let i = 1; i <= 4; i++) {
         const card = document.getElementById(`step-${i}`);
         card.className = 'step-card';
         document.getElementById(`status-${i}`).textContent = 'Waiting...';
         document.getElementById(`indicator-${i}`).textContent = '';
-        document.getElementById(`output-${i}`).textContent = '';
+        document.getElementById(`output-${i}`).innerHTML = '';
       }
       document.getElementById('reviewPanel').classList.remove('visible');
       document.getElementById('successBanner').classList.remove('visible');
       document.getElementById('errorBanner').classList.remove('visible');
       document.getElementById('emptyState').style.display = 'none';
       document.getElementById('pipelineView').style.display = 'block';
+      // Scroll card track back to start
+      document.getElementById('cardsTrack').scrollLeft = 0;
     }
 
     // === PHASE 1: Steps 1 & 2, then pause ===
@@ -346,8 +703,8 @@
       // Hide review panel
       document.getElementById('reviewPanel').classList.remove('visible');
 
-      // Update Step 2 output with the edited version
-      document.getElementById('output-2').textContent = editedPainPoints;
+      // Update Step 2 output with the edited version (rendered)
+      document.getElementById('output-2').innerHTML = parseMarkdown(editedPainPoints);
 
       try {
         const response = await fetch('/api/resume', {
@@ -407,7 +764,8 @@
         card.classList.add('active');
         document.getElementById(`status-${data.step}`).textContent = data.label;
         document.getElementById(`indicator-${data.step}`).textContent = '\u26A1';
-        card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        // Scroll the card into view within the horizontal track
+        card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
       }
 
       if (event === 'step:done') {
@@ -416,13 +774,15 @@
         card.classList.add('done');
         document.getElementById(`status-${data.step}`).textContent = data.label + ' \u2014 Complete';
         document.getElementById(`indicator-${data.step}`).textContent = '\u2713';
-        document.getElementById(`output-${data.step}`).textContent = data.output;
-        card.classList.add('expanded');
+        document.getElementById(`output-${data.step}`).innerHTML = parseMarkdown(data.output);
 
         // Strategy is the hero — give it special styling
         if (data.step === 4) {
           card.classList.add('hero');
         }
+
+        // Scroll to the completed card
+        card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
       }
 
       if (event === 'pipeline:paused') {
