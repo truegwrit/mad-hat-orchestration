@@ -33,19 +33,6 @@
     .brand-bar span:nth-child(3) { flex: 2; background: var(--mhm-yellow); }
     .brand-bar span:nth-child(4) { flex: 2; background: var(--mhm-black); }
 
-    /* LOGIN */
-    .login-screen { display: flex; align-items: center; justify-content: center; min-height: calc(100vh - 6px); }
-    .login-card { background: var(--mhm-white); border-radius: 16px; padding: 48px 40px; width: 400px; text-align: center; box-shadow: 0 4px 24px rgba(0,0,0,0.06); }
-    .login-card .login-hat { font-size: 48px; margin-bottom: 16px; }
-    .login-card h1 { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 22px; color: var(--mhm-black); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-    .login-card h1 span { color: var(--mhm-blue); }
-    .login-card .login-sub { font-family: 'Montserrat', sans-serif; font-size: 11px; color: var(--mhm-grey); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 32px; }
-    .login-card input[type="password"] { font-family: 'Hind', sans-serif; font-size: 15px; padding: 12px 16px; border: 2px solid var(--border); border-radius: 8px; width: 100%; outline: none; text-align: center; letter-spacing: 2px; transition: border-color 0.2s; }
-    .login-card input[type="password"]:focus { border-color: var(--mhm-blue); }
-    .login-card .btn-login { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; background: var(--mhm-blue); color: var(--mhm-white); border: none; border-radius: 8px; padding: 13px 24px; margin-top: 16px; cursor: pointer; width: 100%; transition: all 0.2s; }
-    .login-card .btn-login:hover { background: var(--mhm-navy); }
-    .login-error { color: var(--mhm-pink); font-size: 13px; font-weight: 500; margin-top: 12px; min-height: 20px; }
-
     /* HEADER */
     header { background: var(--mhm-white); border-bottom: 1px solid var(--border); padding: 20px 40px; display: flex; align-items: center; justify-content: space-between; }
     .logo-area { display: flex; align-items: center; gap: 16px; }
@@ -56,7 +43,6 @@
     .header-badge { font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 600; color: var(--mhm-blue); background: rgba(15, 75, 143, 0.08); padding: 6px 14px; border-radius: 20px; letter-spacing: 0.5px; }
 
     /* LAYOUT */
-    .app-wrapper { display: none; }
     .container { display: grid; grid-template-columns: 420px 1fr; gap: 0; min-height: calc(100vh - 80px); }
 
     /* LEFT PANEL */
@@ -153,20 +139,8 @@
 
   <div class="brand-bar"><span></span><span></span><span></span><span></span></div>
 
-  <!-- LOGIN -->
-  <div class="login-screen" id="loginScreen">
-    <div class="login-card">
-      <div class="login-hat">&#x1F3A9;</div>
-      <h1>Mad Hat <span>Maven</span></h1>
-      <p class="login-sub">Orchestration Engine</p>
-      <input type="password" id="passwordInput" placeholder="Enter password" onkeydown="if(event.key==='Enter')doLogin()">
-      <button class="btn-login" onclick="doLogin()">Enter</button>
-      <div class="login-error" id="loginError"></div>
-    </div>
-  </div>
-
   <!-- MAIN APP -->
-  <div class="app-wrapper" id="appWrapper">
+  <div id="appWrapper">
     <header>
       <div class="logo-area">
         <svg class="logo-hat" viewBox="0 0 100 90" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -286,34 +260,11 @@
   </div>
 
   <script>
-    let authToken = null;
     let timerInterval = null;
     let startTime = null;
 
     // Pipeline state (persisted between phases)
     let pipelineState = {};
-
-    // === LOGIN ===
-    async function doLogin() {
-      const pw = document.getElementById('passwordInput').value;
-      const errEl = document.getElementById('loginError');
-      errEl.textContent = '';
-      try {
-        const res = await fetch('/api/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ password: pw })
-        });
-        const data = await res.json();
-        if (res.ok && data.token) {
-          authToken = data.token;
-          document.getElementById('loginScreen').style.display = 'none';
-          document.getElementById('appWrapper').style.display = 'block';
-        } else {
-          errEl.textContent = data.error || 'Wrong password.';
-        }
-      } catch (e) { errEl.textContent = 'Connection error. Try again.'; }
-    }
 
     function toggleGuidelines() {
       document.getElementById('guidelinesToggle').classList.toggle('open');
@@ -373,11 +324,9 @@
       try {
         const response = await fetch('/api/run', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'X-Auth-Token': authToken },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(pipelineState)
         });
-
-        if (response.status === 401) { alert('Session expired.'); location.reload(); return; }
 
         await processSSE(response);
       } catch (err) {
@@ -403,7 +352,7 @@
       try {
         const response = await fetch('/api/resume', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'X-Auth-Token': authToken },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             clientName: pipelineState.clientName,
             brief: pipelineState.brief,
@@ -412,8 +361,6 @@
             brandGuidelines: pipelineState.brandGuidelines
           })
         });
-
-        if (response.status === 401) { alert('Session expired.'); location.reload(); return; }
 
         await processSSE(response);
       } catch (err) {

@@ -17,7 +17,6 @@ import express from 'express';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import crypto from 'crypto';
 import { analyzeBrief } from './steps/step1-analyze.js';
 import { expandPainPoints } from './steps/step2-painpoints.js';
 import { generateCopy } from './steps/step3-copy.js';
@@ -26,29 +25,8 @@ import { buildStrategy } from './steps/step4-strategy.js';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const PORT = process.env.PORT || 3000;
-const DEMO_PASSWORD = process.env.DEMO_PASSWORD || 'madhat';
 
 app.use(express.json({ limit: '1mb' }));
-
-// --- Auth: password gate ---
-const sessions = new Set();
-
-function requireAuth(req, res, next) {
-  const token = req.headers['x-auth-token'];
-  if (token && sessions.has(token)) return next();
-  return res.status(401).json({ error: 'Unauthorized' });
-}
-
-app.post('/api/login', (req, res) => {
-  const { password } = req.body;
-  if (password === DEMO_PASSWORD) {
-    const token = crypto.randomUUID();
-    sessions.add(token);
-    return res.json({ token });
-  }
-  return res.status(401).json({ error: 'Wrong password.' });
-});
-
 app.use(express.static(path.join(__dirname, 'public')));
 
 function toSlug(name) {
@@ -68,7 +46,7 @@ function sendEvent(res, event, data) {
  * Returns analysis output via SSE so the front-end can display it,
  * then sends a 'pipeline:paused' event with the pain points for user review.
  */
-app.post('/api/run', requireAuth, async (req, res) => {
+app.post('/api/run', async (req, res) => {
   const { clientName, brief, brandGuidelines } = req.body;
 
   if (!clientName || !brief) {
@@ -111,7 +89,7 @@ app.post('/api/run', requireAuth, async (req, res) => {
  * Phase 2: Resume with (possibly edited) pain points, run Steps 3-4.
  * Accepts the full context from Phase 1 plus user-edited pain points.
  */
-app.post('/api/resume', requireAuth, async (req, res) => {
+app.post('/api/resume', async (req, res) => {
   const { clientName, brief, analysis, painPoints, brandGuidelines } = req.body;
 
   if (!clientName || !brief || !analysis || !painPoints) {
