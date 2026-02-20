@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mad Hat Maven — Orchestration Engine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&family=Hind:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --mhm-blue: #0F4B8F;
+      --mhm-yellow: #FEBC11;
+      --mhm-pink: #E14F9C;
+      --mhm-black: #000000;
+      --mhm-light-blue: #92DCE5;
+      --mhm-orange: #EB5E28;
+      --mhm-navy: #027CA3;
+      --mhm-grey: #A5A2AB;
+      --mhm-white: #FFFFFF;
+      --bg: #F7F8FA;
+      --card-bg: #FFFFFF;
+      --text-primary: #1a1a1a;
+      --text-secondary: #555;
+      --border: #E2E4E8;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Hind', sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      min-height: 100vh;
+    }
+
+    /* === COLOR BAR === */
+    .brand-bar {
+      display: flex;
+      height: 6px;
+      width: 100%;
+    }
+    .brand-bar span:nth-child(1) { flex: 3; background: var(--mhm-pink); }
+    .brand-bar span:nth-child(2) { flex: 1; background: var(--mhm-blue); }
+    .brand-bar span:nth-child(3) { flex: 2; background: var(--mhm-yellow); }
+    .brand-bar span:nth-child(4) { flex: 2; background: var(--mhm-black); }
+
+    /* === LOGIN SCREEN === */
+    .login-screen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: calc(100vh - 6px);
+      background: var(--bg);
+    }
+    .login-card {
+      background: var(--mhm-white);
+      border-radius: 16px;
+      padding: 48px 40px;
+      width: 400px;
+      text-align: center;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    }
+    .login-card .login-hat { font-size: 48px; margin-bottom: 16px; }
+    .login-card h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 22px;
+      color: var(--mhm-black);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+    .login-card h1 span { color: var(--mhm-blue); }
+    .login-card .login-sub {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      color: var(--mhm-grey);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 32px;
+    }
+    .login-card input[type="password"] {
+      font-family: 'Hind', sans-serif;
+      font-size: 15px;
+      padding: 12px 16px;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      width: 100%;
+      outline: none;
+      text-align: center;
+      letter-spacing: 2px;
+      transition: border-color 0.2s;
+    }
+    .login-card input[type="password"]:focus {
+      border-color: var(--mhm-blue);
+    }
+    .login-card .btn-login {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      background: var(--mhm-blue);
+      color: var(--mhm-white);
+      border: none;
+      border-radius: 8px;
+      padding: 13px 24px;
+      margin-top: 16px;
+      cursor: pointer;
+      width: 100%;
+      transition: all 0.2s;
+    }
+    .login-card .btn-login:hover {
+      background: var(--mhm-navy);
+    }
+    .login-error {
+      color: var(--mhm-pink);
+      font-size: 13px;
+      font-weight: 500;
+      margin-top: 12px;
+      min-height: 20px;
+    }
+
+    /* === HEADER === */
+    header {
+      background: var(--mhm-white);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .logo-hat { width: 48px; height: 48px; }
+    .logo-text h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 20px;
+      color: var(--mhm-black);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      line-height: 1.1;
+    }
+    .logo-text h1 span { color: var(--mhm-blue); }
+    .logo-text p {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 400;
+      font-size: 11px;
+      color: var(--mhm-grey);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+    }
+    .header-badge {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--mhm-blue);
+      background: rgba(15, 75, 143, 0.08);
+      padding: 6px 14px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+    }
+
+    /* === MAIN LAYOUT === */
+    .app-wrapper { display: none; }
+    .container {
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      gap: 0;
+      min-height: calc(100vh - 80px);
+    }
+
+    /* === LEFT PANEL === */
+    .input-panel {
+      background: var(--mhm-white);
+      border-right: 1px solid var(--border);
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+    .input-panel h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--mhm-blue);
+      margin-bottom: 4px;
+    }
+    .input-panel .subtitle {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+    label {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--mhm-black);
+      margin-bottom: 6px;
+      display: block;
+    }
+    input[type="text"] {
+      font-family: 'Hind', sans-serif;
+      font-size: 15px;
+      padding: 10px 14px;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 20px;
+      width: 100%;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    input[type="text"]:focus { border-color: var(--mhm-blue); }
+    textarea {
+      font-family: 'Hind', sans-serif;
+      font-size: 15px;
+      padding: 12px 14px;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      width: 100%;
+      min-height: 160px;
+      resize: vertical;
+      transition: border-color 0.2s;
+      outline: none;
+      line-height: 1.6;
+    }
+    textarea:focus { border-color: var(--mhm-blue); }
+    textarea::placeholder, input::placeholder { color: var(--mhm-grey); }
+
+    /* === BRAND GUIDELINES TOGGLE === */
+    .guidelines-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 16px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .guidelines-toggle .toggle-icon {
+      font-size: 12px;
+      color: var(--mhm-blue);
+      transition: transform 0.2s;
+      width: 16px;
+    }
+    .guidelines-toggle.open .toggle-icon {
+      transform: rotate(90deg);
+    }
+    .guidelines-toggle span {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--mhm-blue);
+    }
+    .guidelines-tag {
+      font-family: 'Hind', sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      text-transform: none;
+      letter-spacing: 0;
+      color: var(--mhm-grey);
+      background: var(--bg);
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+    .guidelines-section {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+    .guidelines-section.open {
+      max-height: 400px;
+    }
+    .guidelines-section textarea {
+      min-height: 100px;
+      flex: none;
+    }
+    .guidelines-hint {
+      font-size: 12px;
+      color: var(--mhm-grey);
+      margin-bottom: 8px;
+      line-height: 1.5;
+    }
+
+    .btn-run {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      background: var(--mhm-blue);
+      color: var(--mhm-white);
+      border: none;
+      border-radius: 8px;
+      padding: 14px 24px;
+      margin-top: 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+      width: 100%;
+    }
+    .btn-run:hover {
+      background: var(--mhm-navy);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(15, 75, 143, 0.3);
+    }
+    .btn-run:active { transform: translateY(0); }
+    .btn-run:disabled {
+      background: var(--mhm-grey);
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* === RIGHT PANEL === */
+    .output-panel {
+      padding: 32px 40px;
+      overflow-y: auto;
+    }
+
+    /* === PIPELINE TRACKER === */
+    .pipeline-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+    .pipeline-header h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--mhm-blue);
+    }
+    .pipeline-timer {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--mhm-grey);
+    }
+
+    .step-card {
+      background: var(--card-bg);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 16px;
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+    .step-card.active { border-color: var(--mhm-yellow); }
+    .step-card.done { border-color: var(--mhm-blue); }
+    .step-card.error { border-color: var(--mhm-pink); }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 20px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .step-number {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 14px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.3s;
+      background: var(--bg);
+      color: var(--mhm-grey);
+    }
+    .step-card.active .step-number {
+      background: var(--mhm-yellow);
+      color: var(--mhm-black);
+    }
+    .step-card.done .step-number {
+      background: var(--mhm-blue);
+      color: var(--mhm-white);
+    }
+
+    .step-info { flex: 1; }
+    .step-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--text-primary);
+    }
+    .step-status {
+      font-size: 13px;
+      color: var(--mhm-grey);
+      margin-top: 2px;
+    }
+    .step-card.active .step-status {
+      color: var(--mhm-orange);
+      font-weight: 500;
+    }
+    .step-card.done .step-status {
+      color: var(--mhm-blue);
+      font-weight: 500;
+    }
+
+    .step-indicator {
+      width: 24px;
+      text-align: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .step-card.active .step-indicator {
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    .step-chevron {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      color: var(--mhm-grey);
+      transition: transform 0.2s;
+    }
+    .step-card.expanded .step-chevron { transform: rotate(180deg); }
+
+    .step-output {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+    .step-card.expanded .step-output { max-height: 3000px; }
+    .step-output-inner {
+      padding: 0 20px 20px;
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+    }
+    .step-output-inner pre {
+      font-family: 'Hind', sans-serif;
+      font-size: 14px;
+      line-height: 1.7;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      color: var(--text-primary);
+    }
+
+    /* === BANNERS === */
+    .success-banner {
+      display: none;
+      background: linear-gradient(135deg, var(--mhm-blue), var(--mhm-navy));
+      color: var(--mhm-white);
+      border-radius: 12px;
+      padding: 24px;
+      margin-top: 8px;
+      text-align: center;
+    }
+    .success-banner.visible { display: block; }
+    .success-banner h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      margin-bottom: 6px;
+    }
+    .success-banner p { font-size: 14px; opacity: 0.85; }
+
+    .error-banner {
+      display: none;
+      background: rgba(225, 79, 156, 0.08);
+      border: 2px solid var(--mhm-pink);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-top: 8px;
+      color: var(--mhm-pink);
+    }
+    .error-banner.visible { display: block; }
+    .error-banner h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    /* === EMPTY STATE === */
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      text-align: center;
+      padding: 60px 40px;
+    }
+    .empty-state .hat-icon {
+      font-size: 64px;
+      margin-bottom: 20px;
+      opacity: 0.15;
+    }
+    .empty-state h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--mhm-blue);
+      margin-bottom: 8px;
+    }
+    .empty-state p {
+      font-size: 15px;
+      color: var(--mhm-grey);
+      max-width: 320px;
+      line-height: 1.6;
+    }
+
+    .accent-line {
+      width: 60px;
+      height: 3px;
+      background: var(--mhm-yellow);
+      border-radius: 2px;
+      margin-bottom: 16px;
+    }
+
+    @media (max-width: 900px) {
+      .container { grid-template-columns: 1fr; }
+      .input-panel {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="brand-bar">
+    <span></span><span></span><span></span><span></span>
+  </div>
+
+  <!-- ====== LOGIN SCREEN ====== -->
+  <div class="login-screen" id="loginScreen">
+    <div class="login-card">
+      <div class="login-hat">&#x1F3A9;</div>
+      <h1>Mad Hat <span>Maven</span></h1>
+      <p class="login-sub">Orchestration Engine</p>
+      <input type="password" id="passwordInput" placeholder="Enter password" onkeydown="if(event.key==='Enter')doLogin()">
+      <button class="btn-login" onclick="doLogin()">Enter</button>
+      <div class="login-error" id="loginError"></div>
+    </div>
+  </div>
+
+  <!-- ====== MAIN APP (hidden until login) ====== -->
+  <div class="app-wrapper" id="appWrapper">
+    <header>
+      <div class="logo-area">
+        <svg class="logo-hat" viewBox="0 0 100 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="50" cy="72" rx="46" ry="12" fill="#000"/>
+          <rect x="22" y="20" width="56" height="52" rx="4" fill="#000"/>
+          <path d="M22 45 C22 22, 78 22, 78 45" fill="#000"/>
+          <path d="M26 44 C30 38, 55 35, 58 42" fill="#fff" opacity="0.3"/>
+        </svg>
+        <div class="logo-text">
+          <h1>Mad Hat <span>Maven</span></h1>
+          <p>Creative</p>
+        </div>
+      </div>
+      <div class="header-badge">Orchestration Engine</div>
+    </header>
+
+    <div class="container">
+      <!-- LEFT: INPUT -->
+      <div class="input-panel">
+        <div class="accent-line"></div>
+        <h2>New Campaign Brief</h2>
+        <p class="subtitle">Paste a client brief and we'll run it through our 4-step AI pipeline. Watch the magic happen in real time.</p>
+
+        <label for="clientName">Client Name</label>
+        <input type="text" id="clientName" placeholder="e.g. Acme Corp">
+
+        <label for="brief">Client Brief</label>
+        <textarea id="brief" placeholder="Paste the client brief here. Include the product or service, who it's for, what problems it solves, and anything that makes it stand out."></textarea>
+
+        <!-- Brand Guidelines (optional, collapsible) -->
+        <div class="guidelines-toggle" id="guidelinesToggle" onclick="toggleGuidelines()">
+          <div class="toggle-icon">&#9654;</div>
+          <span>Brand Guidelines</span>
+          <span class="guidelines-tag">Optional</span>
+        </div>
+        <div class="guidelines-section" id="guidelinesSection">
+          <p class="guidelines-hint">Paste tone of voice, style notes, target persona details, or any brand rules the copy should follow.</p>
+          <textarea id="brandGuidelines" placeholder="e.g. Voice: confident but never arrogant. Avoid jargon. Speak at a 9th grade reading level. Primary audience is women 35-50."></textarea>
+        </div>
+
+        <button class="btn-run" id="runBtn" onclick="runPipeline()">Run Pipeline</button>
+      </div>
+
+      <!-- RIGHT: OUTPUT -->
+      <div class="output-panel" id="outputPanel">
+        <div class="empty-state" id="emptyState">
+          <div class="hat-icon">&#x1F3A9;</div>
+          <h3>Ready when you are</h3>
+          <p>Enter a client name and brief, then hit Run Pipeline to see the orchestration engine in action.</p>
+        </div>
+
+        <div id="pipelineView" style="display:none;">
+          <div class="pipeline-header">
+            <h2>Pipeline Progress</h2>
+            <div class="pipeline-timer" id="timer">0:00</div>
+          </div>
+
+          <div class="step-card" id="step-1" onclick="toggleStep(1)">
+            <div class="step-header">
+              <div class="step-number">1</div>
+              <div class="step-info">
+                <div class="step-title">Brief Analysis</div>
+                <div class="step-status" id="status-1">Waiting...</div>
+              </div>
+              <div class="step-indicator" id="indicator-1"></div>
+              <svg class="step-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="step-output"><div class="step-output-inner"><pre id="output-1"></pre></div></div>
+          </div>
+
+          <div class="step-card" id="step-2" onclick="toggleStep(2)">
+            <div class="step-header">
+              <div class="step-number">2</div>
+              <div class="step-info">
+                <div class="step-title">Pain Points (Consumer Voice)</div>
+                <div class="step-status" id="status-2">Waiting...</div>
+              </div>
+              <div class="step-indicator" id="indicator-2"></div>
+              <svg class="step-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="step-output"><div class="step-output-inner"><pre id="output-2"></pre></div></div>
+          </div>
+
+          <div class="step-card" id="step-3" onclick="toggleStep(3)">
+            <div class="step-header">
+              <div class="step-number">3</div>
+              <div class="step-info">
+                <div class="step-title">Ad Copy Variations</div>
+                <div class="step-status" id="status-3">Waiting...</div>
+              </div>
+              <div class="step-indicator" id="indicator-3"></div>
+              <svg class="step-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="step-output"><div class="step-output-inner"><pre id="output-3"></pre></div></div>
+          </div>
+
+          <div class="step-card" id="step-4" onclick="toggleStep(4)">
+            <div class="step-header">
+              <div class="step-number">4</div>
+              <div class="step-info">
+                <div class="step-title">Strategy Summary</div>
+                <div class="step-status" id="status-4">Waiting...</div>
+              </div>
+              <div class="step-indicator" id="indicator-4"></div>
+              <svg class="step-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="step-output"><div class="step-output-inner"><pre id="output-4"></pre></div></div>
+          </div>
+
+          <div class="success-banner" id="successBanner">
+            <h3>Pipeline Complete</h3>
+            <p id="successPath"></p>
+          </div>
+
+          <div class="error-banner" id="errorBanner">
+            <h3>Pipeline Error</h3>
+            <p id="errorMessage"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let authToken = null;
+    let timerInterval = null;
+    let startTime = null;
+
+    // === LOGIN ===
+    async function doLogin() {
+      const pw = document.getElementById('passwordInput').value;
+      const errEl = document.getElementById('loginError');
+      errEl.textContent = '';
+
+      try {
+        const res = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password: pw })
+        });
+        const data = await res.json();
+        if (res.ok && data.token) {
+          authToken = data.token;
+          document.getElementById('loginScreen').style.display = 'none';
+          document.getElementById('appWrapper').style.display = 'block';
+        } else {
+          errEl.textContent = data.error || 'Wrong password.';
+        }
+      } catch (e) {
+        errEl.textContent = 'Connection error. Try again.';
+      }
+    }
+
+    // === BRAND GUIDELINES TOGGLE ===
+    function toggleGuidelines() {
+      const toggle = document.getElementById('guidelinesToggle');
+      const section = document.getElementById('guidelinesSection');
+      toggle.classList.toggle('open');
+      section.classList.toggle('open');
+    }
+
+    // === TIMER ===
+    function updateTimer() {
+      const elapsed = Math.floor((Date.now() - startTime) / 1000);
+      const mins = Math.floor(elapsed / 60);
+      const secs = elapsed % 60;
+      document.getElementById('timer').textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    // === STEP TOGGLE ===
+    function toggleStep(n) {
+      const card = document.getElementById(`step-${n}`);
+      const output = document.getElementById(`output-${n}`);
+      if (output.textContent.trim()) {
+        card.classList.toggle('expanded');
+      }
+    }
+
+    // === RESET ===
+    function resetUI() {
+      for (let i = 1; i <= 4; i++) {
+        const card = document.getElementById(`step-${i}`);
+        card.className = 'step-card';
+        document.getElementById(`status-${i}`).textContent = 'Waiting...';
+        document.getElementById(`indicator-${i}`).textContent = '';
+        document.getElementById(`output-${i}`).textContent = '';
+      }
+      document.getElementById('successBanner').classList.remove('visible');
+      document.getElementById('errorBanner').classList.remove('visible');
+      document.getElementById('emptyState').style.display = 'none';
+      document.getElementById('pipelineView').style.display = 'block';
+    }
+
+    // === RUN PIPELINE ===
+    async function runPipeline() {
+      const clientName = document.getElementById('clientName').value.trim();
+      const brief = document.getElementById('brief').value.trim();
+      const brandGuidelines = document.getElementById('brandGuidelines').value.trim();
+
+      if (!clientName || !brief) {
+        alert('Please enter both a client name and a brief.');
+        return;
+      }
+
+      const btn = document.getElementById('runBtn');
+      btn.disabled = true;
+      btn.textContent = 'Running...';
+
+      resetUI();
+      startTime = Date.now();
+      timerInterval = setInterval(updateTimer, 1000);
+
+      try {
+        const response = await fetch('/api/run', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Auth-Token': authToken
+          },
+          body: JSON.stringify({ clientName, brief, brandGuidelines: brandGuidelines || undefined })
+        });
+
+        if (response.status === 401) {
+          alert('Session expired. Please reload and log in again.');
+          location.reload();
+          return;
+        }
+
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = '';
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split('\n');
+          buffer = lines.pop();
+
+          let eventType = null;
+          for (const line of lines) {
+            if (line.startsWith('event: ')) {
+              eventType = line.slice(7).trim();
+            } else if (line.startsWith('data: ') && eventType) {
+              const data = JSON.parse(line.slice(6));
+              handleEvent(eventType, data);
+              eventType = null;
+            }
+          }
+        }
+      } catch (err) {
+        document.getElementById('errorMessage').textContent = err.message;
+        document.getElementById('errorBanner').classList.add('visible');
+      }
+
+      clearInterval(timerInterval);
+      btn.disabled = false;
+      btn.textContent = 'Run Pipeline';
+    }
+
+    // === HANDLE SSE EVENTS ===
+    function handleEvent(event, data) {
+      if (event === 'step:start') {
+        const card = document.getElementById(`step-${data.step}`);
+        card.classList.add('active');
+        document.getElementById(`status-${data.step}`).textContent = data.label;
+        document.getElementById(`indicator-${data.step}`).textContent = '\u26A1';
+        card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      if (event === 'step:done') {
+        const card = document.getElementById(`step-${data.step}`);
+        card.classList.remove('active');
+        card.classList.add('done');
+        document.getElementById(`status-${data.step}`).textContent = data.label + ' \u2014 Complete';
+        document.getElementById(`indicator-${data.step}`).textContent = '\u2713';
+        document.getElementById(`output-${data.step}`).textContent = data.output;
+        card.classList.add('expanded');
+      }
+
+      if (event === 'pipeline:done') {
+        const banner = document.getElementById('successBanner');
+        document.getElementById('successPath').textContent = `Saved to ${data.outputPath}`;
+        banner.classList.add('visible');
+        banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      if (event === 'pipeline:error') {
+        const card = document.querySelectorAll('.step-card.active')[0];
+        if (card) { card.classList.remove('active'); card.classList.add('error'); }
+        document.getElementById('errorMessage').textContent = data.error;
+        document.getElementById('errorBanner').classList.add('visible');
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "mad-hat-orchestration",
+  "version": "1.0.0",
+  "description": "Mad Hat Maven AI content pipeline orchestration engine",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.78.0",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1"
+  }
+}
