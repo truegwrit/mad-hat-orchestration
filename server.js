@@ -29,6 +29,12 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json({ limit: '1mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Increase default socket timeout for long-running AI calls (5 minutes)
+app.use((req, res, next) => {
+  req.socket.setTimeout(300000);
+  next();
+});
+
 function toSlug(name) {
   return name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
 }
