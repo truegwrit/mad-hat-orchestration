@@ -59,6 +59,10 @@ app.post('/api/run', async (req, res) => {
   res.setHeader('Connection', 'keep-alive');
   res.flushHeaders();
 
+  // Keep SSE alive through Railway/proxy idle timeouts
+  const heartbeat = setInterval(() => res.write(': heartbeat\n\n'), 15000);
+  res.on('close', () => clearInterval(heartbeat));
+
   const slug = toSlug(clientName);
 
   // Save brief to briefs/ folder
@@ -82,6 +86,7 @@ app.post('/api/run', async (req, res) => {
     sendEvent(res, 'pipeline:error', { error: err.message });
   }
 
+  clearInterval(heartbeat);
   res.end();
 });
 
@@ -101,6 +106,10 @@ app.post('/api/resume', async (req, res) => {
   res.setHeader('Cache-Control', 'no-cache');
   res.setHeader('Connection', 'keep-alive');
   res.flushHeaders();
+
+  // Keep SSE alive through Railway/proxy idle timeouts
+  const heartbeat = setInterval(() => res.write(': heartbeat\n\n'), 15000);
+  res.on('close', () => clearInterval(heartbeat));
 
   const slug = toSlug(clientName);
 
@@ -154,6 +163,7 @@ ${copy}
     sendEvent(res, 'pipeline:error', { error: err.message });
   }
 
+  clearInterval(heartbeat);
   res.end();
 });
 
