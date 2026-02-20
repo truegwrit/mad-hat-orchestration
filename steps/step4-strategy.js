@@ -38,8 +38,8 @@ export async function buildStrategy(brief, analysis, painPoints, copy, brandGuid
 
   const client = new Anthropic();
   const message = await client.messages.create({
-    model: 'claude-sonnet-4-5-20250929',
-    max_tokens: 4096,
+    model: 'claude-sonnet-4-20250514',
+    max_tokens: 2048,
     system: SYSTEM_PROMPT,
     messages: [
       {
